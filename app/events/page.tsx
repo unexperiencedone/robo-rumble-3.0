@@ -26,6 +26,7 @@ const EventCard = ({ event, index }: { event: EventData; index: number }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<'about' | 'rules' | 'register'>('about');
 
   const playSound = (src: string) => {
     const audio = new Audio(src);
@@ -34,6 +35,7 @@ const EventCard = ({ event, index }: { event: EventData; index: number }) => {
   };
 
   const handleOpen = () => {
+    setActiveTab('about');
     setIsHovered(true);
     setIsLoading(true);
     playSound('/open.mp3');
@@ -90,7 +92,10 @@ const EventCard = ({ event, index }: { event: EventData; index: number }) => {
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 md:p-4 lg:p-12 pointer-events-none">
           <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
           
-          <div className="relative w-full max-w-sm md:max-w-3xl lg:max-w-5xl bg-[#050505] border border-[#FF003C] p-1 shadow-[0_0_80px_rgba(255,0,60,0.4)] pointer-events-auto overflow-hidden animate-glitch-entry">
+          <div 
+            className="relative w-full max-w-sm md:max-w-3xl lg:max-w-5xl bg-[#050505] border border-[#FF003C] p-1 shadow-[0_0_80px_rgba(255,0,60,0.4)] pointer-events-auto overflow-hidden animate-glitch-entry"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Header Status Bar */}
             <div className="bg-[#FF003C] text-black px-3 md:px-6 py-2 flex justify-between items-center font-mono text-[9px] md:text-[11px] font-black uppercase tracking-widest">
               <div className="flex gap-2 md:gap-4">
@@ -109,60 +114,101 @@ const EventCard = ({ event, index }: { event: EventData; index: number }) => {
                   <p className="text-[#FF003C] font-mono text-xl animate-pulse tracking-[0.7em] font-black uppercase">Retrieving Ruleset...</p>
                 </div>
               ) : (
-                <div className="grid md:grid-cols-2 gap-16 overflow-y-auto max-h-[70vh]">
-                  {/* Left Side: Stats & Details */}
-                  <div className="space-y-8">
-                    <div className="aspect-square bg-zinc-950 border border-[#FF003C]/30 relative flex items-center justify-center">
-                       <Icon size={120} className="text-[#FF003C] opacity-20 filter blur-[1px]" />
-                       <div className="absolute inset-0 border-[40px] border-transparent border-t-[#FF003C]/5 border-l-[#FF003C]/5" />
-                       <div className="absolute bottom-4 left-4 text-[#FF003C] font-mono text-[10px] tracking-[0.3em]">OPERATIONAL_UNIT_{index}</div>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-6 font-mono">
-                      <div className="p-4 border border-[#FF003C]/20 bg-red-950/5">
-                        <p className="text-zinc-600 text-[10px] mb-1 uppercase flex items-center gap-2"><Users size={12}/> Team Size</p>
-                        <p className="text-[#FF003C] text-sm font-bold">{event.teamSize}</p>
+                  <div className="flex flex-col md:flex-row gap-8 h-full">
+                    {/* Left Side: Navigation & Quick Stats */}
+                    <div className="w-full md:w-1/3 flex flex-col gap-6">
+                      <div className="aspect-video bg-zinc-950 border border-[#FF003C]/30 relative flex items-center justify-center p-6">
+                         <Icon size={60} className="text-[#FF003C] opacity-80" />
+                         <div className="absolute inset-0 border-[20px] border-transparent border-t-[#FF003C]/5 border-l-[#FF003C]/5" />
                       </div>
-                      <div className="p-4 border border-[#FF003C]/20 bg-red-950/5">
-                        <p className="text-zinc-600 text-[10px] mb-1 uppercase flex items-center gap-2"><Trophy size={12}/> Prize Pool</p>
-                        <p className="text-[#FF003C] text-sm font-bold">{event.prize}</p>
+                      
+                      <div className="flex flex-col gap-2">
+                        <button 
+                          onClick={() => setActiveTab('about')}
+                          className={`px-4 py-3 text-left font-mono text-xs font-bold uppercase tracking-wider border-l-2 transition-all ${activeTab === 'about' ? 'border-[#00F0FF] bg-[#00F0FF]/10 text-[#00F0FF]' : 'border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600'}`}
+                        >
+                          // About_Event
+                        </button>
+                        <button 
+                          onClick={() => setActiveTab('rules')}
+                          className={`px-4 py-3 text-left font-mono text-xs font-bold uppercase tracking-wider border-l-2 transition-all ${activeTab === 'rules' ? 'border-[#FF003C] bg-[#FF003C]/10 text-[#FF003C]' : 'border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600'}`}
+                        >
+                          // Rules_&_Regs
+                        </button>
+                        <button 
+                          onClick={() => setActiveTab('register')}
+                          className={`px-4 py-3 text-left font-mono text-xs font-bold uppercase tracking-wider border-l-2 transition-all ${activeTab === 'register' ? 'border-[#E661FF] bg-[#E661FF]/10 text-[#E661FF]' : 'border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600'}`}
+                        >
+                          // Register_Combat
+                        </button>
                       </div>
                     </div>
-                    
-                    <Link href="/register" className="w-full">
-                      <button className="w-full py-4 bg-[#FF003C] text-black font-black font-mono tracking-widest hover:bg-white transition-colors uppercase text-lg" 
-                              style={{ clipPath: 'polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%)' }}>
-                        Register for Combat
-                      </button>
-                    </Link>
-                  </div>
 
-                  {/* Right Side: Deep Content & Rules */}
-                  <div className="flex flex-col">
-                    <h4 className="text-5xl font-black text-white font-mono mb-4 uppercase tracking-tighter leading-none">
-                      {event.title}
-                    </h4>
-                    <div className="h-1.5 w-32 bg-[#FF003C] mb-8" />
-                    
-                    <p className="text-zinc-400 font-mono text-base leading-relaxed mb-8">
-                      {event.desc}
-                    </p>
-
-                    <div className="space-y-4">
-                      <h5 className="text-[#00F0FF] font-mono text-[11px] uppercase tracking-[0.3em] font-bold flex items-center gap-2">
-                        <Info size={14} /> Rule Protocols:
-                      </h5>
-                      <div className="space-y-3">
-                        {event.rules.map((rule, i) => (
-                          <div key={i} className="text-zinc-300 font-mono text-xs flex gap-3 leading-relaxed border-l border-[#FF003C]/30 pl-4 py-1">
-                            <span className="text-[#FF003C] font-bold">»</span> {rule}
+                    {/* Right Side: Dynamic Content */}
+                    <div className="w-full md:w-2/3 bg-white/5 border border-white/10 p-6 md:p-8 min-h-[300px] relative overflow-y-auto">
+                      {/* About Tab */}
+                      {activeTab === 'about' && (
+                        <div className="space-y-6 animate-glitch-entry">
+                          <h4 className="text-3xl font-black text-white font-mono uppercase tracking-tighter loading-none">
+                            {event.title}
+                          </h4>
+                          <div className="h-1 w-20 bg-[#00F0FF]" />
+                          <p className="text-zinc-400 font-mono text-sm leading-relaxed">
+                            {event.desc}
+                          </p>
+                          <div className="grid grid-cols-2 gap-4 mt-4">
+                            <div className="p-3 border border-[#00F0FF]/20 bg-[#00F0FF]/5">
+                              <p className="text-zinc-500 text-[10px] uppercase mb-1">Squad Size</p>
+                              <p className="text-[#00F0FF] font-bold font-mono text-sm">{event.teamSize}</p>
+                            </div>
+                            <div className="p-3 border border-[#00F0FF]/20 bg-[#00F0FF]/5">
+                              <p className="text-zinc-500 text-[10px] uppercase mb-1">Bounty</p>
+                              <p className="text-[#00F0FF] font-bold font-mono text-sm">{event.prize}</p>
+                            </div>
                           </div>
-                        ))}
-                      </div>
+                        </div>
+                      )}
+
+                      {/* Rules Tab */}
+                      {activeTab === 'rules' && (
+                        <div className="space-y-6 animate-glitch-entry">
+                          <h4 className="text-2xl font-black text-[#FF003C] font-mono uppercase tracking-tight flex items-center gap-3">
+                             <Shield size={24} /> Engagement_Protocol
+                          </h4>
+                          <div className="space-y-3 h-full">
+                            {event.rules.map((rule, i) => (
+                              <div key={i} className="flex gap-4 p-3 bg-black/40 border-l border-[#FF003C]/30 hover:bg-[#FF003C]/5 transition-colors">
+                                <span className="text-[#FF003C] font-mono font-bold text-xs">0{i+1}.</span>
+                                <p className="text-zinc-300 font-mono text-xs leading-relaxed">{rule}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Register Tab */}
+                      {activeTab === 'register' && (
+                        <div className="flex flex-col items-center justify-center h-full text-center space-y-6 animate-glitch-entry py-8">
+                          <Rocket size={48} className="text-[#E661FF] animate-bounce" />
+                          <div>
+                            <h4 className="text-2xl font-black text-white font-mono uppercase mb-2">
+                              Ready for Deployment?
+                            </h4>
+                            <p className="text-zinc-400 font-mono text-xs max-w-xs mx-auto">
+                              Initialize your squad registration sequence. Slots are filling up fast.
+                            </p>
+                          </div>
+                           <Link href="/register" className="w-full max-w-xs">
+                            <button className="w-full py-4 bg-[#E661FF] text-black font-black font-mono tracking-widest hover:bg-white transition-colors uppercase text-sm flex items-center justify-center gap-2" 
+                                    style={{ clipPath: 'polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%)' }}>
+                              <Zap size={16} /> CONFIRM_ENTRY
+                            </button>
+                          </Link>
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              )}
+                )}
               
               {/* Mobile Close Button at Bottom */}
               <div className="md:hidden border-t border-[#FF003C]/30 p-4">

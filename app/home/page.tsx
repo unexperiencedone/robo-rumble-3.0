@@ -241,8 +241,14 @@ export default function Home() {
             </div>
           </div>
 
+          <div className="inline-block p-8 bg-zinc-950/50 border border-white/5 backdrop-blur-md mb-16"
+               style={{ clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)' }}>
+            <p className="text-[#FF003C] text-xs mb-4 uppercase tracking-[0.5em] font-black">Deployment Countdown</p>
+            <Countdown targetDate="2026-03-09T09:00:00" />
+          </div>
+
           {/* Infinite Scrolling Sponsors */}
-          <div className="mb-16 overflow-hidden">
+          <div className="overflow-hidden">
             <p className="text-[#00F0FF] text-xs mb-6 uppercase tracking-[0.5em] font-black text-center">// Powered_By_Our_Partners</p>
             <div className="relative">
               {/* Gradient overlays for fade effect */}
@@ -296,12 +302,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="inline-block p-8 bg-zinc-950/50 border border-white/5 backdrop-blur-md"
-               style={{ clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)' }}>
-            <p className="text-[#FF003C] text-xs mb-4 uppercase tracking-[0.5em] font-black">Deployment Countdown</p>
-            <Countdown targetDate="2026-03-09T09:00:00" />
           </div>
         </div>
       </section>
