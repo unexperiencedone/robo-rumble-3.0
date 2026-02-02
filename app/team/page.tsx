@@ -159,19 +159,6 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
 
 // --- Main TeamPage ---
 export default function TeamPage() {
-  const chiefPatron = { name: "Prof. Vinay Kumar Pathak", role: "Chief Patron", dept: "Vice Chancellor, CSJMU", image: "/vinay pathak.avif" };
-  
-  const patrons = [
-    { name: "Dr. Shilpa Kaistha", role: "Patron", dept: "Dean, Innovation Foundation", image: "/dr-shilpa.jpg" },
-    { name: "Mr. Divyansh Shukla", role: "Patron", dept: "CEO, Innovation Foundation", image: "/Divyansh_Shukla_Law.jpg" },
-    { name: "Dr. Alok Kumar", role: "Patron", dept: "Director, UIET", image: "/dr-alok-kumar.jpg" },
-  ];
-
-  const faculty = [
-    { name: "Dr. Ajay Tiwari", role: "Faculty Coordinator", dept: "Asst. Professor, UIET", image: "/Dr.-Ajay-Tiwari34.jpg" },
-    { name: "Er. Mohd Shah Alam", role: "Faculty Coordinator", dept: "Asst. Professor, UIET", image: "/shah.jpeg" },
-  ];
-
   const students = [
     { name: "Raju Ranjan Yadav", role: "Lead Student Coordinator", dept: "Robo Rumble Core", image: "/Raju.jpeg" },
     { name: "Devanshu Verma", role: "Technical Student Coordinator", dept: "Robo Rumble Core", image: "/devanshu.jpeg" },
@@ -207,38 +194,11 @@ export default function TeamPage() {
           </h1>
         </div>
 
-        {/* Section: Chief Leadership */}
+        {/* Section: Student Coordinators Only */}
         <div className="space-y-24">
             <section>
-                <h2 className="text-xs font-mono font-bold text-[#FF003C] tracking-[0.5em] uppercase mb-10 border-b border-[#FF003C]/20 pb-4 flex items-center gap-4">
-                    <Terminal size={14} /> // Chief_Command
-                </h2>
-                <div className="flex justify-center">
-                    <AssetCard member={chiefPatron} delay={0.1} />
-                </div>
-            </section>
-
-            <section>
-                <h2 className="text-xs font-mono font-bold text-[#00F0FF] tracking-[0.5em] uppercase mb-10 border-b border-[#00F0FF]/20 pb-4 flex items-center gap-4">
-                    <Terminal size={14} /> // Strategic_Patrons
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    {patrons.map((p, i) => <AssetCard key={i} member={p} delay={i * 0.1} />)}
-                </div>
-            </section>
-
-            <section>
-                <h2 className="text-xs font-mono font-bold text-[#E661FF] tracking-[0.5em] uppercase mb-10 border-b border-[#E661FF]/20 pb-4 flex items-center gap-4">
-                    <Terminal size={14} /> // Technical_Advisors
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-                    {faculty.map((f, i) => <AssetCard key={i} member={f} delay={i * 0.1} />)}
-                </div>
-            </section>
-
-            <section>
                 <h2 className="text-xs font-mono font-bold text-white tracking-[0.5em] uppercase mb-10 border-b border-white/20 pb-4 flex items-center gap-4">
-                    <Terminal size={14} /> // Tactical_Student_Leads
+                    <Terminal size={14} /> // Student_Coordinators
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                     {students.map((s, i) => <AssetCard key={i} member={s} delay={i * 0.1} />)}
