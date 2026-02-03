@@ -78,9 +78,10 @@ export default function Hero({ onComplete }: { onComplete?: () => void }) {
   return (
     <section className="flex min-h-screen flex-col items-center justify-center relative overflow-hidden">
       <div className={styles.heroContainer}>
-        <div className={`${styles.glitchText} ${glitchActive ? styles.violent : ''}`}>
+        <div className={`${styles.glitchText} ${glitchActive ? styles.violent : ''} flex flex-col items-center`}>
            {/* Mobile: Smaller text, Desktop: Larger text */}
-           <SlotText text={text} className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl text-center px-4" />
+           <SlotText text="ROBO RUMBLE" className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl text-center px-4" />
+           <SlotText text="3.0" className="text-xl sm:text-2xl md:text-4xl lg:text-5xl text-center px-4 mt-2 font-light tracking-widest" />
         </div>
         
         {/* Subtitle Line 1 */}

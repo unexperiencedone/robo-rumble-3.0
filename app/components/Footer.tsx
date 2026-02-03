@@ -45,7 +45,7 @@ const Footer = () => {
               <Shield size={14} /> Command_Center
             </h4>
             <div className="flex gap-4 mb-6">
-              <Link href="#" className="p-2 border border-white/10 text-zinc-400 hover:text-white hover:border-[#00F0FF] transition-all"><Instagram size={18}/></Link>
+              <Link href="https://www.instagram.com/roborumble.3.o?igsh=czh5OTliZ2Z3ODkz" target="_blank" className="p-2 border border-white/10 text-zinc-400 hover:text-white hover:border-[#00F0FF] transition-all"><Instagram size={18}/></Link>
               <Link href="#" className="p-2 border border-white/10 text-zinc-400 hover:text-white hover:border-[#FF003C] transition-all"><Twitter size={18}/></Link>
               <Link href="#" className="p-2 border border-white/10 text-zinc-400 hover:text-white hover:border-[#E661FF] transition-all"><Github size={18}/></Link>
             </div>

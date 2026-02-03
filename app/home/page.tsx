@@ -247,13 +247,49 @@ export default function Home() {
             <Countdown targetDate="2026-03-09T09:00:00" />
           </div>
 
-          {/* Infinite Scrolling Sponsors */}
-          <div className="overflow-hidden">
-            <p className="text-[#00F0FF] text-xs mb-6 uppercase tracking-[0.5em] font-black text-center">// Powered_By_Our_Partners</p>
-            <div className="relative">
+
+        </div>
+      </section>
+
+      {/* Highlights Section */}
+      <section className="py-24 relative z-10">
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {stats.map((stat, i) => (
+                <div key={i} className="relative group p-10 bg-black/40 border-l-4 border-t border-[#00F0FF]/30 hover:bg-[#00F0FF]/5 transition-all duration-500 backdrop-blur-sm"
+                     style={{ clipPath: 'polygon(0 0, 90% 0, 100% 10%, 100% 100%, 10% 100%, 0 90%)' }}>
+                  
+                  <div className="text-[#00F0FF] mb-6 opacity-60">
+                    {stat.icon}
+                  </div>
+
+                  <h3 className="text-5xl font-black text-white mb-2 font-mono tracking-tighter group-hover:text-[#00F0FF] transition-colors">
+                    {stat.title}
+                  </h3>
+                  <h4 className="text-xs text-[#E661FF] font-mono font-bold mb-4 tracking-[0.2em]">// {stat.subtitle}</h4>
+                  <p className="text-zinc-500 font-mono text-xs uppercase tracking-tight">{stat.desc}</p>
+                  
+                  {/* Hover Scan Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00F0FF]/10 to-transparent h-[20%] w-full animate-scan opacity-0 group-hover:opacity-100 pointer-events-none" />
+                </div>
+              ))}
+            </div>
+        </div>
+      </section>
+
+      {/* Infinite Scrolling Sponsors Section */}
+      <section className="py-12 relative z-10 overflow-hidden">
+
+        {/* Title Container */}
+        <div className="container mx-auto px-4 md:px-6 mb-8">
+            <p className="text-[#00F0FF] text-xs uppercase tracking-[0.5em] font-black text-center">// Powered_By_Our_Partners</p>
+        </div>
+
+        {/* Full Width Scroller */}
+        <div className="relative w-full">
               {/* Gradient overlays for fade effect */}
-              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10" />
-              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10" />
+              <div className="absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-black via-black/80 to-transparent z-10" />
+              <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-black via-black/80 to-transparent z-10" />
               
               {/* Scrolling container */}
               <div className="flex gap-12 animate-infinite-scroll">
@@ -302,34 +338,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Highlights Section */}
-      <section className="py-24 relative z-10">
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              {stats.map((stat, i) => (
-                <div key={i} className="relative group p-10 bg-black/40 border-l-4 border-t border-[#00F0FF]/30 hover:bg-[#00F0FF]/5 transition-all duration-500 backdrop-blur-sm"
-                     style={{ clipPath: 'polygon(0 0, 90% 0, 100% 10%, 100% 100%, 10% 100%, 0 90%)' }}>
-                  
-                  <div className="text-[#00F0FF] mb-6 opacity-60">
-                    {stat.icon}
-                  </div>
-
-                  <h3 className="text-5xl font-black text-white mb-2 font-mono tracking-tighter group-hover:text-[#00F0FF] transition-colors">
-                    {stat.title}
-                  </h3>
-                  <h4 className="text-xs text-[#E661FF] font-mono font-bold mb-4 tracking-[0.2em]">// {stat.subtitle}</h4>
-                  <p className="text-zinc-500 font-mono text-xs uppercase tracking-tight">{stat.desc}</p>
-                  
-                  {/* Hover Scan Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00F0FF]/10 to-transparent h-[20%] w-full animate-scan opacity-0 group-hover:opacity-100 pointer-events-none" />
-                </div>
-              ))}
-            </div>
-        </div>
       </section>
 
       {/* Advisors & Leadership Section */}
