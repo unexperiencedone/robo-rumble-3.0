@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb, Registration } from '@/lib/db';
+import { db } from '@/lib/db';
+import { registrations } from '@/db/schema';
 import { cookies } from 'next/headers';
-import { v4 as uuidv4 } from 'uuid';
+import { eq } from 'drizzle-orm';
 
 // Middleware-like check for admin session
 async function isAdmin() {
@@ -14,34 +15,26 @@ export async function GET() {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const db = getDb();
-    // Reverse to show newest first
-    return NextResponse.json(db.registrations.reverse());
+    try {
+        const data = await db.select().from(registrations);
+        // Reverse to show newest first
+        return NextResponse.json(data.reverse());
+    } catch (error) {
+        return NextResponse.json({ message: 'Error fetching registrations' }, { status: 500 });
+    }
 }
 
 export async function POST(request: Request) {
     try {
+        // NOTE: This POST handler logic seems to mismatch the database schema for 'registrations'.
+        // The table expects 'userId', 'eventId', 'teamDetails', but this API was receiving 'name', 'email', etc.
+        // Since this route seems unused (Auth uses /api/auth/register), I am disabling the write to DB to prevent runtime errors.
+        // If this route is needed, it must be aligned with the schema.
+        
         const body = await request.json();
-        const { name, email, college, event } = body;
+        console.log("Received registration request (Legacy Route):", body);
 
-        if (!name || !email || !college || !event) {
-            return NextResponse.json({ message: 'All fields required' }, { status: 400 });
-        }
-
-        const db = getDb();
-        const newRegistration: Registration = {
-            id: uuidv4(),
-            name,
-            email,
-            college,
-            event,
-            timestamp: new Date().toISOString(),
-        };
-
-        db.registrations.push(newRegistration);
-        saveDb(db);
-
-        return NextResponse.json({ success: true, message: 'Registration successful' });
+        return NextResponse.json({ success: false, message: 'Endpoint deprecated or needs update' }, { status: 501 });
     } catch (error) {
         return NextResponse.json({ message: 'Error processing registration' }, { status: 500 });
     }

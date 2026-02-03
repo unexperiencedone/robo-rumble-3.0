@@ -37,6 +37,7 @@ export default function AdminSidebar() {
   const menuItems = [
     { name: "Dashboard", icon: LayoutDashboard, href: "/admin/dashboard" },
     { name: "Verifications", icon: Users, href: "/admin/users" },
+    { name: "Announcements", icon: Shield, href: "/admin/announcements" }, // Added
     { name: "Events", icon: Calendar, href: "/admin/events" }, // Placeholder
     { name: "Settings", icon: Settings, href: "/admin/settings" }, // Placeholder
   ];

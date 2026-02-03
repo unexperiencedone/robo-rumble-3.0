@@ -10,13 +10,13 @@ interface AdminUser {
     name: string;
     email: string;
     college: string;
-    paymentStatus: string;
-    events: string[];
-    transactionId?: string;
-    screenshotUrl?: string; // We'll need to serve this files
-    declaredAmount?: string;
-    createdAt: string;
-    role: string;
+    paymentStatus: string | null;
+    events: string[] | null;
+    transactionId?: string | null;
+    screenshotUrl?: string | null; // We'll need to serve this files
+    declaredAmount?: string | null;
+    createdAt: string | Date;
+    role: string | null;
 }
 
 export default function AdminUsersPage() {

@@ -26,3 +26,18 @@ export const registrations = pgTable("registrations", {
   teamDetails: text("team_details").notNull(), // Store JSON string of team members
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+export const announcements = pgTable("announcements", {
+  id: text("id").primaryKey(), // Using UUID string
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  type: text("type").default("info").notNull(), // 'info', 'alert', 'warning'
+  date: timestamp("date").defaultNow().notNull(),
+});
+
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
+export type Registration = typeof registrations.$inferSelect;
+export type NewRegistration = typeof registrations.$inferInsert;
+export type Announcement = typeof announcements.$inferSelect;
+export type NewAnnouncement = typeof announcements.$inferInsert;

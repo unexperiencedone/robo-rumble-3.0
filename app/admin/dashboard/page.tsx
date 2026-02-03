@@ -12,9 +12,10 @@ interface AdminUser {
     name: string;
     email: string;
     college: string;
-    paymentStatus: string;
-    events: string[];
-    createdAt: string;
+    paymentStatus: string | null;
+    events: string[] | null;
+    createdAt: string | Date;
+    role: string | null;
 }
 
 export default function AdminDashboard() {

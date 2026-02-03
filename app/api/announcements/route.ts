@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb, Announcement } from '@/lib/db';
+import { db } from '@/lib/db';
+import { announcements } from '@/db/schema';
 import { cookies } from 'next/headers';
-import { v4 as uuidv4 } from 'uuid';
+import { eq } from 'drizzle-orm';
 
 // Middleware-like check for admin session
 async function isAdmin() {
@@ -10,9 +11,13 @@ async function isAdmin() {
 }
 
 export async function GET() {
-    const db = getDb();
-    // Reverse to show newest first
-    return NextResponse.json(db.announcements.reverse());
+    try {
+        const data = await db.select().from(announcements);
+        // Reverse to show newest first (client-side sort might be better but this maintains existing behavior)
+        return NextResponse.json(data.reverse());
+    } catch (error) {
+        return NextResponse.json({ message: 'Error fetching announcements' }, { status: 500 });
+    }
 }
 
 export async function POST(request: Request) {
@@ -28,20 +33,17 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: 'Title and message required' }, { status: 400 });
         }
 
-        const db = getDb();
-        const newAnnouncement: Announcement = {
-            id: uuidv4(),
+        const newAnnouncement = await db.insert(announcements).values({
+            id: crypto.randomUUID(), // Ensure Node environment supports this or use uuid package
             title,
             message,
             type,
-            date: new Date().toISOString(),
-        };
+            date: new Date(),
+        }).returning();
 
-        db.announcements.push(newAnnouncement);
-        saveDb(db);
-
-        return NextResponse.json({ success: true, data: newAnnouncement });
+        return NextResponse.json({ success: true, data: newAnnouncement[0] });
     } catch (error) {
+        console.error("Error adding announcement:", error);
         return NextResponse.json({ message: 'Error adding announcement' }, { status: 500 });
     }
 }
@@ -59,12 +61,11 @@ export async function DELETE(request: Request) {
             return NextResponse.json({ message: 'ID required' }, { status: 400 });
         }
 
-        const db = getDb();
-        db.announcements = db.announcements.filter((a) => a.id !== id);
-        saveDb(db);
+        await db.delete(announcements).where(eq(announcements.id, id));
 
         return NextResponse.json({ success: true, message: 'Deleted successfully' });
     } catch (error) {
+        console.error("Error deleting announcement:", error);
         return NextResponse.json({ message: 'Error deleting announcement' }, { status: 500 });
     }
 }
