@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { X, Menu } from 'lucide-react';
 
 const Navbar = () => {
@@ -30,8 +31,8 @@ const Navbar = () => {
         <nav className="container mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
           {/* Left Side: Logo */}
           <Link href="/home" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-[#00E5FF] flex items-center justify-center font-black text-black text-xl" style={{ clipPath: 'polygon(20% 0, 100% 0, 100% 80%, 80% 100%, 0 100%, 0 20%)' }}>
-              R
+            <div className="relative w-10 h-10">
+              <Image src="/skull.png" alt="Logo" fill className="object-contain" />
             </div>
             <span className="text-white font-black text-xl tracking-tighter group-hover:text-[#00E5FF] transition-colors">
               ROBO RUMBLE
@@ -41,7 +42,7 @@ const Navbar = () => {
           {/* Desktop Navigation - Hidden on mobile/tablet */}
           <div className="hidden lg:flex items-center gap-8">
             {navItems.map((item, index) => (
-              <a 
+              <a
                 key={index}
                 href={item.href}
                 className="relative group/item"
@@ -63,7 +64,7 @@ const Navbar = () => {
           </Link>
 
           {/* Mobile Hamburger Menu - Visible on mobile/tablet */}
-          <button 
+          <button
             onClick={toggleSidebar}
             className="lg:hidden text-white hover:text-[#00E5FF] transition-colors p-2"
             aria-label="Toggle menu"
@@ -75,29 +76,28 @@ const Navbar = () => {
 
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 lg:hidden"
           onClick={closeSidebar}
         />
       )}
 
       {/* Mobile Sidebar */}
-      <div 
-        className={`fixed top-0 right-0 h-full w-80 bg-black border-l border-[#00E5FF]/30 z-50 transform transition-transform duration-300 ease-in-out lg:hidden overflow-y-auto ${
-          isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+      <div
+        className={`fixed top-0 right-0 h-full w-80 bg-black border-l border-[#00E5FF]/30 z-50 transform transition-transform duration-300 ease-in-out lg:hidden overflow-y-auto ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
       >
         {/* Sidebar Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-[#00E5FF] flex items-center justify-center font-black text-black text-lg" style={{ clipPath: 'polygon(20% 0, 100% 0, 100% 80%, 80% 100%, 0 100%, 0 20%)' }}>
-              R
+            <div className="relative w-8 h-8">
+              <Image src="/skull.png" alt="Logo" fill className="object-contain" />
             </div>
             <span className="text-white font-black text-lg tracking-tighter">
               MENU
             </span>
           </div>
-          <button 
+          <button
             onClick={closeSidebar}
             className="text-white hover:text-[#FF003C] transition-colors p-2"
             aria-label="Close menu"
@@ -115,7 +115,7 @@ const Navbar = () => {
               onClick={closeSidebar}
               className="group/item py-3 px-4 border-l-2 border-transparent hover:border-[#00E5FF] hover:bg-white/5 transition-all"
             >
-              <span 
+              <span
                 className="text-gray-400 font-bold tracking-widest group-hover/item:text-white transition-colors text-xs"
                 style={{ color: item.color }}
               >
@@ -123,7 +123,7 @@ const Navbar = () => {
               </span>
             </Link>
           ))}
-          
+
           {/* Decorative System Text - Below Links */}
           <div className="pt-6 space-y-2 opacity-30">
             <p className="text-[#00E5FF] font-mono text-[8px] tracking-widest">// ROBO_RUMBLE_v3.0</p>
