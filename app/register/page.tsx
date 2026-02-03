@@ -15,17 +15,39 @@ export default function RegisterPage() {
   // Preload audio
   const playSubmission = useAudio('audio.wav', 0.1);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     playSubmission();
 
-    // Simulate high-speed data uplink
-    setTimeout(() => {
+    // Collect form data
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      college: formData.get("college"),
+      event: formData.get("event"),
+    };
+
+    try {
+      const res = await fetch("/api/registrations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        setIsSuccess(true);
+        playSubmission();
+      } else {
+        alert("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert("Network error. Please try again.");
+    } finally {
       setIsSubmitting(false);
-      setIsSuccess(true);
-      playSubmission();
-    }, 2000);
+    }
   };
 
   return (
@@ -62,14 +84,14 @@ export default function RegisterPage() {
             // SECURE_UPLINK_PROTOCOL: v3.0.4
           </div>
 
-          <form 
+          <form
             onSubmit={handleSubmit}
             className="relative p-1 bg-[#050505] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden"
             style={{ clipPath: 'polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%)' }}
           >
             {/* Form Header Bar */}
             <div className="bg-[#00F0FF] text-black px-3 md:px-6 py-2 flex justify-between items-center font-mono text-[8px] md:text-[10px] font-black uppercase tracking-widest">
-              <span className="flex items-center gap-2"><Terminal size={12}/> Deployment_Form</span>
+              <span className="flex items-center gap-2"><Terminal size={12} /> Deployment_Form</span>
               <span className="hidden sm:inline">AUTH: GUEST_INITIATED</span>
             </div>
 
@@ -81,7 +103,7 @@ export default function RegisterPage() {
                   </div>
                   <h3 className="text-2xl md:text-3xl lg:text-4xl font-black font-mono text-white tracking-tighter uppercase">Uplink_Successful</h3>
                   <p className="text-zinc-500 font-mono text-xs md:text-sm uppercase tracking-widest px-4">Unit Data Integrated into Mainframe. Standby for briefing.</p>
-                  <button 
+                  <button
                     onClick={() => setIsSuccess(false)}
                     className="mt-8 px-6 md:px-8 py-3 border border-[#00F0FF] text-[#00F0FF] font-mono text-xs hover:bg-[#00F0FF]/10 transition-all uppercase"
                   >
@@ -96,9 +118,10 @@ export default function RegisterPage() {
                       <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
                         Unit_Identity (Full Name)
                       </label>
-                      <input 
+                      <input
                         required
-                        type="text" 
+                        name="name"
+                        type="text"
                         placeholder="ENTER_NAME..."
                         className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
                       />
@@ -108,9 +131,10 @@ export default function RegisterPage() {
                       <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
                         Communication_Channel (Email)
                       </label>
-                      <input 
+                      <input
                         required
-                        type="email" 
+                        name="email"
+                        type="email"
                         placeholder="EMAIL@PROTO.COM"
                         className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
                       />
@@ -122,9 +146,10 @@ export default function RegisterPage() {
                       <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
                         Base_Origin (College/Org)
                       </label>
-                      <input 
+                      <input
                         required
-                        type="text" 
+                        name="college"
+                        type="text"
                         placeholder="IDENTIFY_ORIGIN..."
                         className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
                       />
@@ -133,8 +158,9 @@ export default function RegisterPage() {
                       <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
                         Mission_Objective (Event)
                       </label>
-                      <select 
+                      <select
                         required
+                        name="event"
                         className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all appearance-none"
                       >
                         <option value="" className="bg-zinc-950">SELECT_PROTOCOL...</option>
@@ -153,7 +179,7 @@ export default function RegisterPage() {
                       </p>
                     </div>
 
-                    <button 
+                    <button
                       type="submit"
                       disabled={isSubmitting}
                       className="w-full py-3 md:py-4 lg:py-5 bg-[#FF003C] text-black font-black font-mono text-xs md:text-sm lg:text-base tracking-[0.2em] md:tracking-[0.3em] uppercase hover:bg-white disabled:bg-zinc-800 disabled:text-zinc-500 transition-all flex items-center justify-center gap-2 md:gap-4"

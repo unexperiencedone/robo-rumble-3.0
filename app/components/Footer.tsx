@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Terminal, Shield, Github, Instagram, Twitter, Mail } from 'lucide-react';
+import { Terminal, Shield, Github, Instagram, Twitter, Mail, Lock } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -46,13 +46,17 @@ const Footer = () => {
               <Shield size={14} /> Command_Center
             </h4>
             <div className="flex gap-4 mb-6">
-              <Link href="https://www.instagram.com/roborumble.3.o?igsh=czh5OTliZ2Z3ODkz" target="_blank" className="p-2 border border-white/10 text-zinc-400 hover:text-white hover:border-[#00F0FF] transition-all"><Instagram size={18}/></Link>
-              <Link href="#" className="p-2 border border-white/10 text-zinc-400 hover:text-white hover:border-[#FF003C] transition-all"><Twitter size={18}/></Link>
-              <Link href="#" className="p-2 border border-white/10 text-zinc-400 hover:text-white hover:border-[#E661FF] transition-all"><Github size={18}/></Link>
+              <Link href="https://www.instagram.com/roborumble.3.o?igsh=czh5OTliZ2Z3ODkz" target="_blank" className="p-2 border border-white/10 text-zinc-400 hover:text-white hover:border-[#00F0FF] transition-all"><Instagram size={18} /></Link>
+              <Link href="#" className="p-2 border border-white/10 text-zinc-400 hover:text-white hover:border-[#FF003C] transition-all"><Twitter size={18} /></Link>
+              <Link href="#" className="p-2 border border-white/10 text-zinc-400 hover:text-white hover:border-[#E661FF] transition-all"><Github size={18} /></Link>
             </div>
-            <div className="flex items-center gap-2 text-zinc-400 font-mono text-xs underline">
+            <div className="flex items-center gap-2 text-zinc-400 font-mono text-xs underline mb-4">
               <Mail size={14} /> roborumble@csjmu.ac.in
             </div>
+
+            <Link href="/admin/login" className="inline-flex items-center gap-2 text-[10px] font-black font-mono uppercase tracking-widest text-[#FF003C] hover:text-black transition-all border border-[#FF003C]/50 px-4 py-2 bg-[#FF003C]/10 hover:bg-[#FF003C] shadow-[0_0_10px_rgba(255,0,60,0.2)]">
+              <Lock size={12} /> Admin_Login
+            </Link>
           </div>
 
           {/* Status Panel */}

@@ -1,13 +1,28 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import MatrixBackground from "../components/MatrixBackground";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { Announcement } from "@/lib/db";
 
 export default function AnnouncementPage() {
+    const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch('/api/announcements')
+            .then(res => res.json())
+            .then(data => {
+                setAnnouncements(data);
+                setLoading(false);
+            })
+            .catch(err => setLoading(false));
+    }, []);
+
     return (
         <main className="min-h-screen bg-black text-white relative overflow-hidden">
             <MatrixBackground color="#003B00" text="" />
@@ -30,21 +45,44 @@ export default function AnnouncementPage() {
                             </span>
                             <span className="relative text-white">ANNOUNCEMENTS</span>
                         </div>
-                        <br />
-                        <div className="flex justify-center w-full mt-4">
-                            <SlotText text="COMING_SOON_" className="text-2xl md:text-4xl lg:text-6xl text-[#FF003C]" />
-                        </div>
                     </h1>
 
-                    <div className="max-w-2xl mx-auto mt-12">
-                        <div className="border-l-2 border-[#00F0FF] pl-6 py-4 bg-gradient-to-r from-[#00F0FF]/10 to-transparent text-left">
-                            <p className="text-zinc-400 text-lg leading-relaxed font-mono">
-                                &gt; INITIALIZING_DATA_STREAM...
-                            </p>
-                            <p className="text-zinc-300 text-xl leading-relaxed font-mono mt-2">
-                                Major updates regarding Robo Rumble 3.0 are currently being encrypted. Stand by for transmission.
-                            </p>
-                        </div>
+                    {/* Dynamic Content */}
+                    <div className="max-w-2xl mx-auto mt-12 space-y-8">
+                        {loading ? (
+                            <div className="text-center text-[#00F0FF] font-mono animate-pulse">LOADING_DATA_STREAM...</div>
+                        ) : announcements.length > 0 ? (
+                            announcements.map((a) => (
+                                <div key={a.id} className="border-l-2 border-[#00F0FF] pl-6 py-4 bg-zinc-900/30 text-left hover:bg-zinc-900/50 transition-colors">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className={`text-[10px] font-mono px-2 py-0.5 ${a.type === 'alert' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                                            {a.type.toUpperCase()}
+                                        </span>
+                                        <span className="text-zinc-500 font-mono text-[10px]">
+                                            {new Date(a.date).toLocaleDateString()}
+                                        </span>
+                                    </div>
+                                    <h3 className="text-white text-xl font-bold font-mono uppercase mb-2">{a.title}</h3>
+                                    <p className="text-zinc-400 text-sm leading-relaxed font-mono">
+                                        {a.message}
+                                    </p>
+                                </div>
+                            ))
+                        ) : (
+                            <>
+                                <div className="flex justify-center w-full mt-4">
+                                    <SlotText text="COMING_SOON_" className="text-2xl md:text-4xl lg:text-6xl text-[#FF003C]" />
+                                </div>
+                                <div className="border-l-2 border-[#00F0FF] pl-6 py-4 bg-gradient-to-r from-[#00F0FF]/10 to-transparent text-left">
+                                    <p className="text-zinc-400 text-lg leading-relaxed font-mono">
+                                        &gt; INITIALIZING_DATA_STREAM...
+                                    </p>
+                                    <p className="text-zinc-300 text-xl leading-relaxed font-mono mt-2">
+                                        Major updates regarding Robo Rumble 3.0 are currently being encrypted. Stand by for transmission.
+                                    </p>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
 
