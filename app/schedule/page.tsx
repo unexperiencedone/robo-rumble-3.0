@@ -7,6 +7,7 @@ import MatrixBackground from "../components/MatrixBackground";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
 import { Clock, MapPin, Terminal, Activity, ShieldAlert } from "lucide-react";
+import { useAudio } from "../hooks/useAudio";
 
 // --- Types ---
 interface Event {
@@ -49,11 +50,8 @@ export default function SchedulePage() {
     }
   ];
 
-  const playSound = (src: string) => {
-    const audio = new Audio(src);
-    audio.volume = 0.1;
-    audio.play().catch(() => {});
-  };
+  // Preload audio
+  const playHoverSound = useAudio('audio.wav', 0.1);
 
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -119,7 +117,7 @@ export default function SchedulePage() {
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
                     className="relative pl-12 group"
-                    onMouseEnter={() => playSound('/hover.mp3')}
+                    onMouseEnter={() => playHoverSound()}
                   >
                     {/* Timeline Node */}
                     <div className="absolute -left-[5px] top-2 w-[10px] h-[10px] bg-black border border-[#00F0FF] group-hover:bg-[#00F0FF] group-hover:shadow-[0_0_10px_#00F0FF] transition-all" />

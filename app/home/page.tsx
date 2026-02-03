@@ -10,6 +10,7 @@ import { SlotText } from "../components/SlotText";
 import Countdown from "../components/countdown";
 import Image from "next/image";
 import { sponsors } from "../data/sponsors";
+import { useAudio } from "../hooks/useAudio";
 
 // --- Types ---
 interface TeamMember {
@@ -18,6 +19,7 @@ interface TeamMember {
   dept: string;
   image: string;
   bio?: string;
+  specs?: string[];
 }
 
 // --- Internal Component: AssetCard ---
@@ -26,16 +28,14 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
   const [showDetails, setShowDetails] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const playSound = (src: string) => {
-    const audio = new Audio(src);
-    audio.volume = 0.1;
-    audio.play().catch(() => { });
-  };
+  // Preload audio
+  const playOpenSound = useAudio('audio.wav', 0.1);
+  const playCloseSound = useAudio('audio.wav', 0.1);
 
   const handleClick = () => {
     if (showDetails || isLoading) return;
     setIsLoading(true);
-    playSound('audio.wav');
+    playOpenSound();
     setTimeout(() => {
       setIsLoading(false);
       setShowDetails(true);
@@ -44,7 +44,7 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    playSound('audio.wav');
+    playCloseSound();
     setShowDetails(false);
     setIsHovered(false);
   };
@@ -107,22 +107,44 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
                   <p className="text-[#FF003C] font-mono text-xl animate-pulse tracking-[0.7em] font-black uppercase">Deciphering Profile...</p>
                 </div>
               ) : (
-                <div className="grid md:grid-cols-[300px_1fr] gap-12">
+                <div className="grid md:grid-cols-[300px_1fr] gap-12 items-start">
+                  {/* Left Column: Image */}
                   <div className="flex flex-col items-center">
                     <div className="relative w-64 h-64 mb-8 overflow-hidden border-2 border-[#00F0FF]">
                       <Image src={member.image} alt={member.name} fill className="object-cover" />
                     </div>
-                    <div className="w-full space-y-4 text-center">
-                      <div className="border-t border-zinc-900 pt-4">
+                  </div>
+
+                  {/* Right Column: Text Content */}
+                  <div className="w-full space-y-4">
+                      <div className="border-b border-zinc-900 pb-4">
+                        <h3 className="text-3xl font-black text-white font-mono uppercase tracking-tighter mb-2">{member.name}</h3>
                         <span className="text-[#FF003C] text-sm font-bold uppercase">{member.role}</span>
                       </div>
+                      
                       <div className="flex items-center gap-3">
                         <span className="text-zinc-400 text-xs">{member.dept}</span>
                       </div>
+                      
+                      {member.bio && (
+                        <p className="text-zinc-300 text-xs leading-relaxed text-left font-mono border-l border-[#00F0FF]/30 pl-3 my-4">
+                          {member.bio}
+                        </p>
+                      )}
+
+                      {member.specs && (
+                        <div className="grid grid-cols-2 gap-2 text-left mb-4">
+                            {member.specs.map((spec, i) => (
+                                <div key={i} className="bg-white/5 p-2 border border-white/10 text-[10px] text-[#00F0FF] uppercase tracking-wide flex items-center gap-2">
+                                    <span className="text-[#FF003C]">&gt;</span> {spec}
+                                </div>
+                            ))}
+                        </div>
+                      )}
+
                       <p className="text-zinc-500 text-sm leading-relaxed pt-4 border-t border-zinc-900 uppercase italic">
                         Operational status: active. Coordinating robotics deployment for RR_v3.0.
                       </p>
-                    </div>
                   </div>
                 </div>
               )}
@@ -150,19 +172,64 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
 
 export default function Home() {
   // Advisor data
-  const chiefPatron = { name: "Prof. Vinay Kumar Pathak", role: "Chief Patron", dept: "Vice Chancellor, CSJMU", image: "/vinay pathak.avif" };
-
+  const chiefPatron = { 
+  name: "Prof. Vinay Kumar Pathak", 
+  role: "Chief Patron", 
+  dept: "Vice Chancellor, CSJMU", 
+  image: "/vinay pathak.avif",
+  bio: "A distinguished academician and administrator, Prof. Pathak leads Chhatrapati Shahu Ji Maharaj University as Vice Chancellor. With a Ph.D. in Computer Science (Image Processing) from AKTU, he has previously served as the VC of AKTU and HBTU. He is a pioneer in digital governance and educational reform in Uttar Pradesh.",
+  specs: [
+    "Ph.D. Computer Science", 
+    "Former VC of AKTU & HBTU", 
+    "Expert in Image Processing", 
+    "Digital Governance Lead"
+  ]
+};
   const patrons = [
-    { name: "Dr. Shilpa Kaistha", role: "Patron", dept: "Dean, Innovation Foundation", image: "/dr-shilpa.jpg" },
-    { name: "Mr. Divyansh Shukla", role: "Patron", dept: "CEO, Innovation Foundation", image: "/Divyansh_Shukla_Law.jpg" },
-    { name: "Dr. Alok Kumar", role: "Patron", dept: "Director, UIET", image: "/dr-alok-kumar.jpg" },
-  ];
+  { 
+    name: "Dr. Shilpa Kaistha", 
+    role: "Patron", 
+    dept: "Dean, Innovation Foundation", 
+    image: "/dr-shilpa.jpg",
+    bio: "Associate Professor in Biotechnology with over 50 publications in Viral Immunology. She serves as the Dean of Innovations, Entrepreneurship, and Startups at CSJMU, overseeing the university's incubation ecosystem.",
+    specs: ["Ph.D. Univ. of Tennessee", "SERB DST Young Scientist", "Expert in Applied Microbiology"]
+  },
+  { 
+    name: "Mr. Divyansh Shukla", 
+    role: "Patron", 
+    dept: "CEO, Innovation Foundation", 
+    image: "/Divyansh_Shukla_Law.jpg",
+    bio: "Assistant Professor of Law specializing in AI and Cyber Law. As CEO of CSJMIF, he bridges the gap between technical innovation and legal frameworks, focusing on IPR and startup acceleration.",
+    specs: ["LL.M. NLU Jodhpur", "Expert in AI & Cyber Law", "IPR Strategy Specialist"]
+  },
+  { 
+    name: "Dr. Alok Kumar", 
+    role: "Patron", 
+    dept: "Director, UIET", 
+    image: "/dr-alok-kumar.jpg",
+    bio: "Associate Professor of Computer Science and Director of the School of Engineering & Technology (UIET). His research focus includes Natural Language Processing, Machine Learning, and Sentiment Analysis.",
+    specs: ["Ph.D. Computer Science", "Director of SET/UIET", "Expert in NLP & Deep Learning"]
+  },
+];
 
   const faculty = [
-    { name: "Dr. Ajay Tiwari", role: "Faculty Coordinator", dept: "Asst. Professor, UIET", image: "/ajay.jpeg" },
-    { name: "Er. Mohd Shah Alam", role: "Faculty Coordinator", dept: "Asst. Professor, UIET", image: "/shah.jpeg" },
-  ];
-
+  { 
+    name: "Dr. Ajay Tiwari", 
+    role: "Faculty Coordinator", 
+    dept: "Asst. Professor, UIET", 
+    image: "/ajay.jpeg",
+    bio: "Specialist in Electronics and Communication Engineering with a research focus on Solid State Physics and Dielectric Materials. He coordinates technical operations for electronic-heavy event segments.",
+    specs: ["Ph.D. in Physics", "Expert in Analog Electronics", "Ferroelectric Material Research"]
+  },
+  { 
+    name: "Er. Mohd Shah Alam", 
+    role: "Faculty Coordinator", 
+    dept: "Asst. Professor, UIET", 
+    image: "/shah.jpeg", 
+    bio: "Assistant Professor in Computer Science with expertise in Machine Learning and Network Security. He leads the software integration and cybersecurity protocols for competitive segments.",
+    specs: ["M.Tech Computer Science", "Expert in Network Security", "Machine Learning Specialist"]
+  },
+];
   const stats = [
     { title: "10+", subtitle: "ACTIVE_EVENTS", desc: "From Robo Wars to Esports", icon: <Shield size={20} /> },
     { title: "₹1.5L+", subtitle: "VAL_PRIZE_POOL", desc: "Total cash prizes to be won", icon: <Trophy size={20} /> },

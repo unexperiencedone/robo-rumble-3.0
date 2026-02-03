@@ -7,6 +7,7 @@ import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
 import Image from "next/image";
 import { Linkedin, Mail, ShieldCheck, Cpu, Terminal } from "lucide-react";
+import { useAudio } from "../hooks/useAudio";
 
 // --- Types ---
 interface TeamMember {
@@ -23,16 +24,14 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
   const [showDetails, setShowDetails] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const playSound = (src: string) => {
-    const audio = new Audio(src);
-    audio.volume = 0.1;
-    audio.play().catch(() => { });
-  };
+  // Preload audio
+  const playOpenSound = useAudio('audio.wav', 0.1);
+  const playCloseSound = useAudio('audio.wav', 0.1);
 
   const handleClick = () => {
     if (showDetails || isLoading) return;
     setIsLoading(true);
-    playSound('audio.wav');
+    playOpenSound();
     setTimeout(() => {
       setIsLoading(false);
       setShowDetails(true);
@@ -41,7 +40,7 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    playSound('audio.wav');
+    playCloseSound();
     setShowDetails(false);
     setIsHovered(false);
   };

@@ -5,10 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
 import MatrixBackground from "../components/MatrixBackground";
-import { Trophy, Users, Info, Shield, Zap, Cpu, Bot, Gamepad2, Mic, Rocket, Magnet } from "lucide-react";
+import { Trophy, Users, Info, Shield, Zap, Cpu, Bot, Gamepad2, Mic, Rocket, Magnet, Download } from "lucide-react";
 import { BiFootball } from "react-icons/bi";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
+import { useAudio } from "../hooks/useAudio";
 
 // --- Types ---
 interface EventData {
@@ -102,17 +103,15 @@ const EventCard = ({ event, index }: { event: EventData; index: number }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'about' | 'rules' | 'register'>('about');
 
-  const playSound = (src: string) => {
-    const audio = new Audio(src);
-    audio.volume = 0.1;
-    audio.play().catch(() => { });
-  };
+  // Preload audio
+  const playOpenSound = useAudio('/audio.wav', 0.1);
+  const playCloseSound = useAudio('audio.wav', 0.1);
 
   const handleOpen = () => {
     setActiveTab('about');
     setIsHovered(true);
     setIsLoading(true);
-    playSound('/open.mp3');
+    playOpenSound();
     setTimeout(() => {
       setIsLoading(false);
       setShowDetails(true);
@@ -121,7 +120,7 @@ const EventCard = ({ event, index }: { event: EventData; index: number }) => {
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    playSound('audio.wav');
+    playCloseSound();
     setShowDetails(false);
     setIsHovered(false);
     setIsLoading(false);
@@ -292,6 +291,12 @@ const EventCard = ({ event, index }: { event: EventData; index: number }) => {
                             <Zap size={16} /> CONFIRM_ENTRY
                           </button>
                         </Link>
+                        <a href="/brochureroborumble3.o.pdf" download="RoboRumble_Brochure.pdf" className="w-full max-w-xs">
+                          <button className="w-full py-4 border border-[#00F0FF] text-[#00F0FF] font-black font-mono tracking-widest hover:bg-[#00F0FF]/10 transition-colors uppercase text-sm flex items-center justify-center gap-2"
+                            style={{ clipPath: 'polygon(5% 0, 100% 0, 100% 70%, 95% 100%, 0 100%, 0 30%)' }}>
+                            <Download size={16} /> DOWNLOAD_BROCHURE
+                          </button>
+                        </a>
                       </div>
                     )}
                   </div>

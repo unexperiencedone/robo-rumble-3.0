@@ -6,27 +6,25 @@ import MatrixBackground from "../components/MatrixBackground";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
 import { Terminal, ShieldAlert, Cpu, UserPlus, Zap } from "lucide-react";
+import { useAudio } from "../hooks/useAudio";
 
 export default function RegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const playSound = (src: string) => {
-    const audio = new Audio(src);
-    audio.volume = 0.1;
-    audio.play().catch(() => {});
-  };
+  // Preload audio
+  const playSubmission = useAudio('audio.wav', 0.1);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    playSound('audio.wav');
+    playSubmission();
 
     // Simulate high-speed data uplink
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
-      playSound('audio.wav');
+      playSubmission();
     }, 2000);
   };
 

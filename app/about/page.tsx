@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import MatrixBackground from "../components/MatrixBackground";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
+import { useAudio } from "../hooks/useAudio";
 
 // --- Types ---
 interface CardData {
@@ -21,11 +22,9 @@ const AboutCard = ({ data, delay }: { data: CardData; delay: number }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const playSound = (src: string) => {
-    const audio = new Audio(src);
-    audio.volume = 0.15;
-    audio.play().catch(() => {}); 
-  };
+  // Preload audio
+  const playOpenSound = useAudio('audio.wav', 0.15);
+  const playCloseSound = useAudio('audio.wav', 0.15);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -38,7 +37,7 @@ const AboutCard = ({ data, delay }: { data: CardData; delay: number }) => {
   const handleClick = () => {
     if (showDetails || isLoading) return; // Prevent re-opening
     setIsLoading(true);
-    playSound('audio.wav');
+    playOpenSound();
     
     setTimeout(() => {
       setIsLoading(false);
@@ -48,7 +47,7 @@ const AboutCard = ({ data, delay }: { data: CardData; delay: number }) => {
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    playSound('audio.wav');
+    playCloseSound();
     setShowDetails(false);
     setIsHovered(false);
     setIsLoading(false);

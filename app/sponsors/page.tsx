@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import MatrixBackground from "../components/MatrixBackground";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
+import { useAudio } from "../hooks/useAudio";
 
 import { sponsors, SponsorData } from "../data/sponsors";
 
@@ -15,16 +16,14 @@ const SponsorCard = ({ sponsor, delay }: { sponsor: SponsorData; delay: number }
   const [showDetails, setShowDetails] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const playSound = (src: string) => {
-    const audio = new Audio(src);
-    audio.volume = 0.15;
-    audio.play().catch(() => { });
-  };
+  // Preload audio
+  const playOpenSound = useAudio('audio.wav', 0.15); // Using audio.wav as generic sound, can be customized
+  const playCloseSound = useAudio('audio.wav', 0.15);
 
   const handleClick = () => {
     if (showDetails || isLoading) return;
     setIsLoading(true);
-    playSound('audio.wav');
+    playOpenSound();
     setTimeout(() => {
       setIsLoading(false);
       setShowDetails(true);
@@ -33,7 +32,7 @@ const SponsorCard = ({ sponsor, delay }: { sponsor: SponsorData; delay: number }
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    playSound('audio.wav');
+    playCloseSound();
     setShowDetails(false);
     setIsHovered(false);
     setIsLoading(false);
@@ -116,8 +115,16 @@ const SponsorCard = ({ sponsor, delay }: { sponsor: SponsorData; delay: number }
                     </h4>
                     <div className="h-1.5 w-24 bg-[#FF003C] mb-8" />
                     <p className="text-zinc-400 font-mono text-sm leading-relaxed mb-8">
-                      {sponsor.details}
+                      {sponsor.about}
                     </p>
+
+                    <div className="mb-8">
+                       <h5 className="text-[#00F0FF] font-mono text-[10px] mb-2 uppercase tracking-[0.3em] font-bold">Operational_Role:</h5>
+                       <p className="text-zinc-500 font-mono text-xs leading-relaxed">
+                         {sponsor.operationalRole}
+                       </p>
+                    </div>
+
                     <div className="mt-auto pt-6 border-t border-zinc-900">
                       <h5 className="text-[#00F0FF] font-mono text-[10px] mb-4 uppercase tracking-[0.3em] font-bold">Contribution_Specs:</h5>
                       <div className="text-zinc-500 font-mono text-xs flex gap-2">
