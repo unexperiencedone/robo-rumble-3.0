@@ -7,14 +7,7 @@ import MatrixBackground from "../components/MatrixBackground";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
 
-// --- Types ---
-interface SponsorData {
-  name: string;
-  image: string;
-  category: string;
-  contribution: string;
-  details: string;
-}
+import { sponsors, SponsorData } from "../data/sponsors";
 
 // --- Internal Component: SponsorCard ---
 const SponsorCard = ({ sponsor, delay }: { sponsor: SponsorData; delay: number }) => {
@@ -25,7 +18,7 @@ const SponsorCard = ({ sponsor, delay }: { sponsor: SponsorData; delay: number }
   const playSound = (src: string) => {
     const audio = new Audio(src);
     audio.volume = 0.15;
-    audio.play().catch(() => {});
+    audio.play().catch(() => { });
   };
 
   const handleClick = () => {
@@ -47,27 +40,27 @@ const SponsorCard = ({ sponsor, delay }: { sponsor: SponsorData; delay: number }
   };
 
   return (
-    <div 
-      className="relative group cursor-pointer" 
+    <div
+      className="relative group cursor-pointer"
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Main Preview Card */}
-      <div 
+      <div
         className="relative w-64 h-40 bg-black/40 border-l-4 border-t border-[#00F0FF]/50 hover:bg-[#00F0FF]/10 transition-all duration-500 backdrop-blur-sm flex flex-col items-center justify-center p-6"
         style={{ clipPath: 'polygon(0 0, 90% 0, 100% 15%, 100% 100%, 15% 100%, 0 85%)' }}
       >
         <div className="text-[#00F0FF] font-mono text-[8px] absolute top-2 left-4 opacity-50 tracking-tighter uppercase">
           // PARTNER_ID: {sponsor.name.toUpperCase()}
         </div>
-        
+
         <div className="relative w-full h-full">
           <Image
             src={sponsor.image}
             alt={sponsor.name}
             fill
-            className="object-contain p-2 filter grayscale group-hover:grayscale-0 transition-all duration-500"
+            className="object-contain p-2 transition-all duration-500"
           />
         </div>
 
@@ -78,7 +71,7 @@ const SponsorCard = ({ sponsor, delay }: { sponsor: SponsorData; delay: number }
       {(isLoading || showDetails) && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 md:p-4 lg:p-12 pointer-events-none">
           <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
-          
+
           <div className="relative w-full max-w-sm md:max-w-3xl lg:max-w-4xl bg-[#050505] border border-[#FF003C] p-1 shadow-[0_0_80px_rgba(255,0,60,0.4)] pointer-events-auto overflow-hidden animate-glitch-entry">
             {/* Top Red Status Bar */}
             <div className="bg-[#FF003C] text-black px-3 md:px-6 py-2 flex justify-between items-center font-mono text-[9px] md:text-[11px] font-black uppercase tracking-widest">
@@ -102,8 +95,8 @@ const SponsorCard = ({ sponsor, delay }: { sponsor: SponsorData; delay: number }
                 <div className="grid md:grid-cols-2 gap-12">
                   <div className="space-y-8">
                     <div className="aspect-video bg-white/5 border border-[#FF003C]/30 relative flex items-center justify-center p-8">
-                        <Image src={sponsor.image} alt={sponsor.name} width={200} height={100} className="object-contain" />
-                        <div className="absolute inset-0 border-[20px] border-transparent border-t-[#FF003C]/5 border-l-[#FF003C]/5" />
+                      <Image src={sponsor.image} alt={sponsor.name} width={200} height={100} className="object-contain" />
+                      <div className="absolute inset-0 border-[20px] border-transparent border-t-[#FF003C]/5 border-l-[#FF003C]/5" />
                     </div>
                     <div className="grid grid-cols-2 gap-4 font-mono text-[10px]">
                       <div className="p-3 border border-[#FF003C]/20 bg-red-950/5">
@@ -134,10 +127,10 @@ const SponsorCard = ({ sponsor, delay }: { sponsor: SponsorData; delay: number }
                   </div>
                 </div>
               )}
-              
+
               {/* Mobile Close Button at Bottom */}
               <div className="md:hidden border-t border-[#FF003C]/30 p-4">
-                <button 
+                <button
                   onClick={handleClose}
                   className="w-full bg-[#FF003C] text-black py-3 font-black font-mono text-xs uppercase tracking-widest hover:bg-[#FF003C]/80 transition-all"
                 >
@@ -153,51 +146,6 @@ const SponsorCard = ({ sponsor, delay }: { sponsor: SponsorData; delay: number }
 };
 
 export default function SponsorsPage() {
-  const sponsors: SponsorData[] = [
-    { 
-      name: "Nkosh", 
-      image: "/Nkosh.png", 
-      category: "Title Partner", 
-      contribution: "Core Infrastructure & Agricultural Tech Support",
-      details: "Leading the way in agricultural innovation and technology integration for Robo Rumble 3.0."
-    },
-    { 
-      name: "RedBull", 
-      image: "/redbull2.png", 
-      category: "Energy Partner", 
-      contribution: "Athlete & Participant High-Performance Support",
-      details: "Fueling the minds of 1000+ engineers throughout the high-intensity competition cycles."
-    },
-    { 
-      name: "Dominos", 
-      image: "/dominos.png", 
-      category: "Food Partner", 
-      contribution: "Logistical Sustenance Distribution",
-      details: "Ensuring zero downtime for participants with strategic logistical support."
-    },
-    { 
-      name: "DailyWash", 
-      image: "/dailywash.jpg", 
-      category: "Service Partner", 
-      contribution: "Hygiene & Operational Maintenance",
-      details: "Maintaining operational excellence and hygiene standards across the event campus."
-    },
-    { 
-      name: "CSJMIF", 
-      image: "/CSJMIF.jpg", 
-      category: "Incubation Partner", 
-      contribution: "Venture Capital & Startup Support",
-      details: "Providing the next generation of robotics startups with the necessary runway to take off."
-    },
-    { 
-      name: "Sahara", 
-      image: "/sahara.jpg", 
-      category: "Media Partner", 
-      contribution: "Broadcast & Information Diffusion",
-      details: "Broadcasting the spirit of innovation to a regional audience of millions."
-    },
-  ];
-
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
       <MatrixBackground color="#003B00" text="" />
@@ -207,8 +155,8 @@ export default function SponsorsPage() {
         {/* Page Header */}
         <div className="mb-20 text-center">
           <div className="flex items-center justify-center gap-2 md:gap-4 mb-4">
-             <div className="h-[2px] w-12 md:w-20 bg-[#FF003C]" />
-             <span className="text-[#FF003C] font-mono text-xs md:text-sm font-bold tracking-[0.2em] md:tracking-[0.4em] uppercase">AUTHORIZED_PARTNERS_ONLY</span>
+            <div className="h-[2px] w-12 md:w-20 bg-[#FF003C]" />
+            <span className="text-[#FF003C] font-mono text-xs md:text-sm font-bold tracking-[0.2em] md:tracking-[0.4em] uppercase">AUTHORIZED_PARTNERS_ONLY</span>
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-black font-mono tracking-tighter uppercase leading-[0.85] mb-8 break-words">
             <div className="relative inline-block glitch-container">
@@ -229,7 +177,7 @@ export default function SponsorsPage() {
           </h1>
           <div className="max-w-2xl mx-auto">
             <p className="text-zinc-500 text-lg leading-relaxed font-mono border-l-2 border-[#FF003C] pl-6 py-2 bg-gradient-to-r from-[#FF003C]/5 to-transparent">
-              Robo Rumble 3.0 is powered by a network of elite industry leaders. 
+              Robo Rumble 3.0 is powered by a network of elite industry leaders.
               These organizations provide the tactical support required for the region&apos;s largest technology deployment.
             </p>
           </div>
@@ -244,17 +192,17 @@ export default function SponsorsPage() {
 
         {/* CTA Section */}
         <div className="bg-zinc-950/50 border border-white/5 p-10 md:p-16 backdrop-blur-xl relative overflow-hidden"
-             style={{ clipPath: 'polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px)' }}>
+          style={{ clipPath: 'polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px)' }}>
           <div className="relative z-10 flex flex-col items-center text-center space-y-8">
             <h3 className="text-4xl font-black text-white font-mono uppercase tracking-tighter">
               Initiate <span className="text-[#00F0FF]">Partnership</span> Protocols?
             </h3>
             <p className="text-zinc-500 font-mono text-sm max-w-xl leading-relaxed uppercase">
-              Connect with 1000+ engineers. Showcase your tactical advantage at the region&apos;s premier tech fest. 
+              Connect with 1000+ engineers. Showcase your tactical advantage at the region&apos;s premier tech fest.
               Awaiting connection...
             </p>
             <button className="px-12 py-4 bg-[#FF003C] text-black font-black font-mono tracking-widest hover:bg-white transition-all uppercase text-sm"
-                    style={{ clipPath: 'polygon(15% 0, 100% 0, 100% 70%, 85% 100%, 0 100%, 0 30%)' }}>
+              style={{ clipPath: 'polygon(15% 0, 100% 0, 100% 70%, 85% 100%, 0 100%, 0 30%)' }}>
               Become_A_Partner
             </button>
           </div>
@@ -301,6 +249,6 @@ export default function SponsorsPage() {
           67% { clip-path: inset(0 0 0 0); }
         }
       `}</style>
-    </main>
+    </main >
   );
 }

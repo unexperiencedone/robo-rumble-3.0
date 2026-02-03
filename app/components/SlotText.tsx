@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
 
 const SlotChar = ({ targetChar, delay }: { targetChar: string; delay: number }) => {
-  const [displayChar, setDisplayChar] = useState(CHARS[Math.floor(Math.random() * CHARS.length)]);
+  const [displayChar, setDisplayChar] = useState("A"); // Start with a static character to prevent hydration mismatch
 
   useEffect(() => {
     // Phase 1: Rapidly shuffle characters

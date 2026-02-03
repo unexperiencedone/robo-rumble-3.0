@@ -9,6 +9,7 @@ import Footer from "../components/Footer";
 import { SlotText } from "../components/SlotText";
 import Countdown from "../components/countdown";
 import Image from "next/image";
+import { sponsors } from "../data/sponsors";
 
 // --- Types ---
 interface TeamMember {
@@ -28,7 +29,7 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
   const playSound = (src: string) => {
     const audio = new Audio(src);
     audio.volume = 0.1;
-    audio.play().catch(() => {});
+    audio.play().catch(() => { });
   };
 
   const handleClick = () => {
@@ -49,22 +50,22 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
   };
 
   return (
-    <div 
-      className="relative group cursor-crosshair" 
+    <div
+      className="relative group cursor-crosshair"
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Asset Preview Card */}
-      <div 
+      <div
         className="relative p-6 bg-black/40 border-l-2 border-t border-[#00F0FF]/30 hover:bg-[#00F0FF]/5 transition-all duration-500 backdrop-blur-sm h-full"
         style={{ clipPath: 'polygon(0 0, 95% 0, 100% 10%, 100% 100%, 5% 100%, 0 90%)' }}
       >
         <div className="text-[#00F0FF] font-mono text-[8px] mb-4 opacity-50 tracking-tighter uppercase">
           // ASSET_LOG: {member.name.split(' ')[0]}
         </div>
-        
-        <div className="relative w-32 h-32 mx-auto mb-6 grayscale group-hover:grayscale-0 transition-all duration-500 overflow-hidden border border-white/10 p-1">
+
+        <div className="relative w-32 h-32 mx-auto mb-6 transition-all duration-500 overflow-hidden border border-white/10 p-1">
           <Image src={member.image} alt={member.name} fill className="object-cover" />
           <div className="absolute inset-0 border border-[#00F0FF]/20 group-hover:border-[#00F0FF] transition-colors" />
         </div>
@@ -85,7 +86,7 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
       {showDetails && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 md:p-4 lg:p-12 pointer-events-none">
           <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
-          
+
           <div className="relative w-full max-w-sm md:max-w-3xl lg:max-w-4xl bg-[#050505] border border-[#FF003C] p-1 shadow-[0_0_80px_rgba(255,0,60,0.4)] pointer-events-auto overflow-hidden animate-glitch-entry">
             {/* Top Alert Bar */}
             <div className="bg-[#FF003C] text-black px-3 md:px-6 py-2 flex justify-between items-center font-mono text-[9px] md:text-[11px] font-black uppercase tracking-widest">
@@ -109,26 +110,26 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
                 <div className="grid md:grid-cols-[300px_1fr] gap-12">
                   <div className="flex flex-col items-center">
                     <div className="relative w-64 h-64 mb-8 overflow-hidden border-2 border-[#00F0FF]">
-                        <Image src={member.image} alt={member.name} fill className="object-cover" />
+                      <Image src={member.image} alt={member.name} fill className="object-cover" />
                     </div>
                     <div className="w-full space-y-4 text-center">
-                        <div className="border-t border-zinc-900 pt-4">
-                            <span className="text-[#FF003C] text-sm font-bold uppercase">{member.role}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <span className="text-zinc-400 text-xs">{member.dept}</span>
-                        </div>
-                        <p className="text-zinc-500 text-sm leading-relaxed pt-4 border-t border-zinc-900 uppercase italic">
-                           Operational status: active. Coordinating robotics deployment for RR_v3.0.
-                        </p>
+                      <div className="border-t border-zinc-900 pt-4">
+                        <span className="text-[#FF003C] text-sm font-bold uppercase">{member.role}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-zinc-400 text-xs">{member.dept}</span>
+                      </div>
+                      <p className="text-zinc-500 text-sm leading-relaxed pt-4 border-t border-zinc-900 uppercase italic">
+                        Operational status: active. Coordinating robotics deployment for RR_v3.0.
+                      </p>
                     </div>
                   </div>
                 </div>
               )}
-              
+
               {/* Mobile Close Button at Bottom */}
               <div className="md:hidden border-t border-[#FF003C]/30 p-4">
-                <button 
+                <button
                   onClick={handleClose}
                   className="w-full bg-[#FF003C] text-black py-3 font-black font-mono text-xs uppercase tracking-widest hover:bg-[#FF003C]/80 transition-all"
                 >
@@ -150,7 +151,7 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
 export default function Home() {
   // Advisor data
   const chiefPatron = { name: "Prof. Vinay Kumar Pathak", role: "Chief Patron", dept: "Vice Chancellor, CSJMU", image: "/vinay pathak.avif" };
-  
+
   const patrons = [
     { name: "Dr. Shilpa Kaistha", role: "Patron", dept: "Dean, Innovation Foundation", image: "/dr-shilpa.jpg" },
     { name: "Mr. Divyansh Shukla", role: "Patron", dept: "CEO, Innovation Foundation", image: "/Divyansh_Shukla_Law.jpg" },
@@ -158,7 +159,7 @@ export default function Home() {
   ];
 
   const faculty = [
-    { name: "Dr. Ajay Tiwari", role: "Faculty Coordinator", dept: "Asst. Professor, UIET", image: "/Dr.-Ajay-Tiwari34.jpg" },
+    { name: "Dr. Ajay Tiwari", role: "Faculty Coordinator", dept: "Asst. Professor, UIET", image: "/ajay.jpeg" },
     { name: "Er. Mohd Shah Alam", role: "Faculty Coordinator", dept: "Asst. Professor, UIET", image: "/shah.jpeg" },
   ];
 
@@ -172,18 +173,18 @@ export default function Home() {
     <main className="min-h-screen bg-black text-white relative overflow-x-hidden selection:bg-[#00F0FF] selection:text-black">
       {/* Background Matrix Effect */}
       <MatrixBackground color="#003B00" text="" />
-      
+
       <Navbar />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-20">
         <div className="container mx-auto px-4 md:px-6 z-10 text-center">
           <div className="flex items-center justify-center gap-4 mb-6">
-             <div className="h-[2px] w-12 bg-[#FF003C]" />
-             <span className="text-[#FF003C] font-mono text-sm font-bold tracking-[0.4em] uppercase">
-               Build Compete Dominate
-             </span>
-             <div className="h-[2px] w-12 bg-[#FF003C]" />
+            <div className="h-[2px] w-12 bg-[#FF003C]" />
+            <span className="text-[#FF003C] font-mono text-sm font-bold tracking-[0.4em] uppercase">
+              Build Compete Dominate
+            </span>
+            <div className="h-[2px] w-12 bg-[#FF003C]" />
           </div>
 
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-black font-mono tracking-tighter uppercase leading-[0.85] mb-8 flex flex-col items-center">
@@ -197,7 +198,7 @@ export default function Home() {
               <span className="relative text-white">ROBO</span>
             </div>
             <div className="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] to-[#E661FF] flex justify-center w-full">
-               <SlotText text="RUMBLE" />
+              <SlotText text="RUMBLE" />
             </div>
             <span className="text-2xl md:text-4xl align-top text-[#E661FF] font-mono animate-pulse">3.0</span>
           </h1>
@@ -210,21 +211,21 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-16">
             <Link href="/register" className="w-full md:w-auto">
               <button className="w-full md:w-auto px-8 py-4 bg-[#FF003C] text-black font-black font-mono tracking-widest hover:bg-white transition-all uppercase flex items-center justify-center gap-2"
-                      style={{ clipPath: 'polygon(15% 0, 100% 0, 100% 70%, 85% 100%, 0 100%, 0 30%)' }}>
+                style={{ clipPath: 'polygon(15% 0, 100% 0, 100% 70%, 85% 100%, 0 100%, 0 30%)' }}>
                 Register_Now <ArrowRight size={20} />
               </button>
             </Link>
-            
+
             <Link href="/events" className="w-full md:w-auto">
               <button className="w-full md:w-auto px-8 py-4 border border-[#00F0FF] text-[#00F0FF] font-black font-mono tracking-widest hover:bg-[#00F0FF]/10 transition-all uppercase"
-                      style={{ clipPath: 'polygon(0 0, 85% 0, 100% 30%, 100% 100%, 15% 100%, 0 70%)' }}>
+                style={{ clipPath: 'polygon(0 0, 85% 0, 100% 30%, 100% 100%, 15% 100%, 0 70%)' }}>
                 Explore_Events
               </button>
             </Link>
 
             <a href="/brochureroborumble3.o.pdf" download="RoboRumble_Brochure.pdf" className="w-full md:w-auto">
               <button className="w-full md:w-auto px-8 py-4 border border-[#E661FF] text-[#E661FF] font-black font-mono tracking-widest hover:bg-[#E661FF]/10 transition-all uppercase flex items-center justify-center gap-2"
-                      style={{ clipPath: 'polygon(0 15%, 85% 0, 100% 0, 100% 85%, 15% 100%, 0 100%)' }}>
+                style={{ clipPath: 'polygon(0 15%, 85% 0, 100% 0, 100% 85%, 15% 100%, 0 100%)' }}>
                 <Download size={20} /> Brochure.pdf
               </button>
             </a>
@@ -242,7 +243,7 @@ export default function Home() {
           </div>
 
           <div className="inline-block p-8 bg-zinc-950/50 border border-white/5 backdrop-blur-md mb-16"
-               style={{ clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)' }}>
+            style={{ clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)' }}>
             <p className="text-[#FF003C] text-xs mb-4 uppercase tracking-[0.5em] font-black">Deployment Countdown</p>
             <Countdown targetDate="2026-03-09T09:00:00" />
           </div>
@@ -295,46 +296,30 @@ export default function Home() {
               <div className="flex gap-12 animate-infinite-scroll">
                 {/* First set of sponsors */}
                 <div className="flex gap-12 items-center min-w-max">
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 1</span>
-                  </div>
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 2</span>
-                  </div>
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 3</span>
-                  </div>
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 4</span>
-                  </div>
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 5</span>
-                  </div>
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 6</span>
-                  </div>
+                  {sponsors.map((sponsor, i) => (
+                    <div key={`s1-${i}`} className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 transition-all relative">
+                      <Image
+                        src={sponsor.image}
+                        alt={sponsor.name}
+                        fill
+                        className="object-contain p-2"
+                      />
+                    </div>
+                  ))}
                 </div>
-                
+
                 {/* Duplicate set for seamless loop */}
                 <div className="flex gap-12 items-center min-w-max">
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 1</span>
-                  </div>
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 2</span>
-                  </div>
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 3</span>
-                  </div>
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 4</span>
-                  </div>
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 5</span>
-                  </div>
-                  <div className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all">
-                    <span className="text-white/50 font-mono text-xs">SPONSOR 6</span>
-                  </div>
+                  {sponsors.map((sponsor, i) => (
+                    <div key={`s2-${i}`} className="w-32 h-16 bg-white/5 border border-white/10 flex items-center justify-center p-4 transition-all relative">
+                      <Image
+                        src={sponsor.image}
+                        alt={sponsor.name}
+                        fill
+                        className="object-contain p-2"
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -347,9 +332,9 @@ export default function Home() {
           {/* Section Header */}
           <div className="mb-20 text-center">
             <div className="flex items-center justify-center gap-2 md:gap-4 mb-4">
-               <div className="h-[2px] w-12 md:w-20 bg-[#FF003C]" />
-               <span className="text-[#FF003C] font-mono text-xs md:text-sm font-bold tracking-[0.2em] md:tracking-[0.4em] uppercase">LEADERSHIP_&_GUIDANCE</span>
-               <div className="h-[2px] w-12 md:w-20 bg-[#FF003C]" />
+              <div className="h-[2px] w-12 md:w-20 bg-[#FF003C]" />
+              <span className="text-[#FF003C] font-mono text-xs md:text-sm font-bold tracking-[0.2em] md:tracking-[0.4em] uppercase">LEADERSHIP_&_GUIDANCE</span>
+              <div className="h-[2px] w-12 md:w-20 bg-[#FF003C]" />
             </div>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-black font-mono tracking-tighter uppercase">
               <span className="text-white">OUR </span>

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Terminal, Shield, Github, Instagram, Twitter, Mail } from 'lucide-react';
 
 const Footer = () => {
@@ -12,12 +13,12 @@ const Footer = () => {
 
       <div className="container mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          
+
           {/* Brand/Logo Section */}
           <div className="col-span-1 md:col-span-1 space-y-6">
             <div className="flex items-center gap-3 group">
-              <div className="w-10 h-10 border-2 border-[#00F0FF] flex items-center justify-center font-mono font-black text-[#00F0FF] group-hover:bg-[#00F0FF] group-hover:text-black transition-all">
-                R
+              <div className="relative w-10 h-10">
+                <Image src="/skull.png" alt="Logo" fill className="object-contain" />
               </div>
               <span className="font-mono font-black text-xl tracking-tighter uppercase">Robo_Rumble <span className="text-[#FF003C]">3.0</span></span>
             </div>
@@ -55,8 +56,8 @@ const Footer = () => {
           </div>
 
           {/* Status Panel */}
-          <div className="bg-zinc-950/50 border border-white/5 p-6" 
-               style={{ clipPath: 'polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)' }}>
+          <div className="bg-zinc-950/50 border border-white/5 p-6"
+            style={{ clipPath: 'polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)' }}>
             <h4 className="text-zinc-600 font-mono text-[10px] uppercase tracking-widest mb-4 italic">System_Snapshot</h4>
             <div className="space-y-2 font-mono text-[10px]">
               <div className="flex justify-between">
@@ -81,16 +82,16 @@ const Footer = () => {
           <p className="text-zinc-700 font-mono text-[10px] uppercase tracking-widest">
             © 2026 CSJMU_Innovation_Cell. All Rights Reserved.
           </p>
-          
+
           <div className="flex-grow max-w-md mx-6 hidden md:block overflow-hidden relative">
-             <div className="flex gap-8 animate-marquee whitespace-nowrap text-[9px] font-mono text-[#00F0FF]/40 uppercase">
-                <span>[INFO] Decrypting Mission Data...</span>
-                <span>[SYNC] Operational Timeline Updated...</span>
-                <span>[AUTH] User Verified as Administrator...</span>
-                <span>[SYS] Matrix Field Generated Successfully...</span>
-             </div>
+            <div className="flex gap-8 animate-marquee whitespace-nowrap text-[9px] font-mono text-[#00F0FF]/40 uppercase">
+              <span>[INFO] Decrypting Mission Data...</span>
+              <span>[SYNC] Operational Timeline Updated...</span>
+              <span>[AUTH] User Verified as Administrator...</span>
+              <span>[SYS] Matrix Field Generated Successfully...</span>
+            </div>
           </div>
-          
+
           <p className="text-[#FF003C] font-mono text-[10px] font-bold tracking-widest animate-pulse">
             ENCRYPTION: AES-256_ACTIVE
           </p>

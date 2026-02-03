@@ -26,7 +26,7 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
   const playSound = (src: string) => {
     const audio = new Audio(src);
     audio.volume = 0.1;
-    audio.play().catch(() => {});
+    audio.play().catch(() => { });
   };
 
   const handleClick = () => {
@@ -47,22 +47,22 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
   };
 
   return (
-    <div 
-      className="relative group cursor-crosshair" 
+    <div
+      className="relative group cursor-crosshair"
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Asset Preview Card */}
-      <div 
+      <div
         className="relative p-6 bg-black/40 border-l-2 border-t border-[#00F0FF]/30 hover:bg-[#00F0FF]/5 transition-all duration-500 backdrop-blur-sm h-full"
         style={{ clipPath: 'polygon(0 0, 95% 0, 100% 10%, 100% 100%, 5% 100%, 0 90%)' }}
       >
         <div className="text-[#00F0FF] font-mono text-[8px] mb-4 opacity-50 tracking-tighter uppercase">
           // ASSET_LOG: {member.name.split(' ')[0]}
         </div>
-        
-        <div className="relative w-32 h-32 mx-auto mb-6 grayscale group-hover:grayscale-0 transition-all duration-500 overflow-hidden border border-white/10 p-1">
+
+        <div className="relative w-32 h-32 mx-auto mb-6 transition-all duration-500 overflow-hidden border border-white/10 p-1">
           <Image src={member.image} alt={member.name} fill className="object-cover" />
           <div className="absolute inset-0 border border-[#00F0FF]/20 group-hover:border-[#00F0FF] transition-colors" />
         </div>
@@ -83,7 +83,7 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
       {(isLoading || showDetails) && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 md:p-4 lg:p-12 pointer-events-none">
           <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
-          
+
           <div className="relative w-full max-w-sm md:max-w-3xl lg:max-w-4xl bg-[#050505] border border-[#FF003C] p-1 shadow-[0_0_80px_rgba(255,0,60,0.4)] pointer-events-auto overflow-hidden animate-glitch-entry">
             {/* Top Alert Bar */}
             <div className="bg-[#FF003C] text-black px-3 md:px-6 py-2 flex justify-between items-center font-mono text-[9px] md:text-[11px] font-black uppercase tracking-widest">
@@ -109,8 +109,8 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
                     <Image src={member.image} alt={member.name} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                     <div className="absolute inset-0 border-[30px] border-transparent border-t-[#FF003C]/5 border-l-[#FF003C]/5" />
                     <div className="absolute bottom-4 right-4 flex gap-4">
-                        <Linkedin className="text-white hover:text-[#FF003C] cursor-pointer" size={20} />
-                        <Mail className="text-white hover:text-[#FF003C] cursor-pointer" size={20} />
+                      <Linkedin className="text-white hover:text-[#FF003C] cursor-pointer" size={20} />
+                      <Mail className="text-white hover:text-[#FF003C] cursor-pointer" size={20} />
                     </div>
                   </div>
 
@@ -120,25 +120,25 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
                     </h4>
                     <div className="h-1.5 w-24 bg-[#FF003C] mb-8" />
                     <div className="space-y-4 font-mono">
-                        <div className="flex items-center gap-3">
-                            <ShieldCheck className="text-[#FF003C]" size={18} />
-                            <span className="text-[#FF003C] text-sm font-bold uppercase">{member.role}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <Cpu className="text-zinc-600" size={18} />
-                            <span className="text-zinc-400 text-xs">{member.dept}</span>
-                        </div>
-                        <p className="text-zinc-500 text-sm leading-relaxed pt-4 border-t border-zinc-900 uppercase italic">
-                           Operational status: active. Coordinating robotics deployment for RR_v3.0.
-                        </p>
+                      <div className="flex items-center gap-3">
+                        <ShieldCheck className="text-[#FF003C]" size={18} />
+                        <span className="text-[#FF003C] text-sm font-bold uppercase">{member.role}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Cpu className="text-zinc-600" size={18} />
+                        <span className="text-zinc-400 text-xs">{member.dept}</span>
+                      </div>
+                      <p className="text-zinc-500 text-sm leading-relaxed pt-4 border-t border-zinc-900 uppercase italic">
+                        Operational status: active. Coordinating robotics deployment for RR_v3.0.
+                      </p>
                     </div>
                   </div>
                 </div>
               )}
-              
+
               {/* Mobile Close Button at Bottom */}
               <div className="md:hidden border-t border-[#FF003C]/30 p-4">
-                <button 
+                <button
                   onClick={handleClose}
                   className="w-full bg-[#FF003C] text-black py-3 font-black font-mono text-xs uppercase tracking-widest hover:bg-[#FF003C]/80 transition-all"
                 >
@@ -163,6 +163,10 @@ export default function TeamPage() {
     { name: "Raju Ranjan Yadav", role: "Lead Student Coordinator", dept: "Robo Rumble Core", image: "/Raju.jpeg" },
     { name: "Devanshu Verma", role: "Technical Student Coordinator", dept: "Robo Rumble Core", image: "/devanshu.jpeg" },
     { name: "Qaaid Iqbal Badri", role: "Strategic Student Coordinator", dept: "Robo Rumble Core", image: "/qaaid.jpeg" },
+    { name: "Ayush kanoujiya", role: "Student Coordinator", dept: "Robo Rumble Core", image: "/Ayush.jpeg" },
+    // { name: "Vaishnavi", role: "Student Coordinator", dept: "Robo Rumble Core", image: "/Vaishnavi2.jpeg" },
+    // { name: "Lucky", role: "Student Coordinator", dept: "Robo Rumble Core", image: "/lucky.jpeg" },
+    // { name: "Mukesh", role: "Student Coordinator", dept: "Robo Rumble Core", image: "/mukesh.jpeg" },
   ];
 
   return (
@@ -174,8 +178,8 @@ export default function TeamPage() {
         {/* Header */}
         <div className="mb-20 text-center">
           <div className="flex items-center justify-center gap-2 md:gap-4 mb-4">
-             <div className="h-[2px] w-12 md:w-20 bg-[#00F0FF]" />
-             <span className="text-[#00F0FF] font-mono text-xs md:text-sm font-bold tracking-[0.2em] md:tracking-[0.4em] uppercase">INITIATING_CORE_CREW_RECALL</span>
+            <div className="h-[2px] w-12 md:w-20 bg-[#00F0FF]" />
+            <span className="text-[#00F0FF] font-mono text-xs md:text-sm font-bold tracking-[0.2em] md:tracking-[0.4em] uppercase">INITIATING_CORE_CREW_RECALL</span>
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-black font-mono tracking-tighter uppercase leading-[0.85] mb-8 break-words">
             <div className="relative inline-block glitch-container">
@@ -196,14 +200,14 @@ export default function TeamPage() {
 
         {/* Section: Student Coordinators Only */}
         <div className="space-y-24">
-            <section>
-                <h2 className="text-xs font-mono font-bold text-white tracking-[0.5em] uppercase mb-10 border-b border-white/20 pb-4 flex items-center gap-4">
-                    <Terminal size={14} /> // Student_Coordinators
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    {students.map((s, i) => <AssetCard key={i} member={s} delay={i * 0.1} />)}
-                </div>
-            </section>
+          <section>
+            <h2 className="text-xs font-mono font-bold text-white tracking-[0.5em] uppercase mb-10 border-b border-white/20 pb-4 flex items-center gap-4">
+              <Terminal size={14} /> // Student_Coordinators
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {students.map((s, i) => <AssetCard key={i} member={s} delay={i * 0.1} />)}
+            </div>
+          </section>
         </div>
       </div>
 
