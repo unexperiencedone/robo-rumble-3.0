@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Navbar from "../components/Navbar";
 import MatrixBackground from "../components/MatrixBackground";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
@@ -57,9 +56,6 @@ export default function SchedulePage() {
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Background Matrix Effect */}
       <MatrixBackground color="#003B00" text="" />
-      
-      {/* Navbar Overlay */}
-      <Navbar />
 
       <div className="relative z-10 pt-40 pb-20 container mx-auto px-4 md:px-8">
         {/* Page Header */}

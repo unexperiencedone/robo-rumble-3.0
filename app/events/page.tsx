@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import Navbar from "../components/Navbar";
 import MatrixBackground from "../components/MatrixBackground";
 import { Trophy, Users, Info, Shield, Zap, Cpu, Bot, Gamepad2, Mic, Rocket, Magnet, Download } from "lucide-react";
 import { BiFootball } from "react-icons/bi";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
 import { useAudio } from "../hooks/useAudio";
+import { events } from "../data/events";
 
 // --- Types ---
 interface EventData {
@@ -97,11 +98,61 @@ const CardBackground = ({ category, image }: { category: string; image?: string 
 };
 
 // --- Internal Component: EventCard ---
-const EventCard = ({ event, index }: { event: EventData; index: number }) => {
+const EventCard = ({ event, index, registeredEvents, refreshEvents }: { event: EventData; index: number; registeredEvents: string[]; refreshEvents: () => void }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
   const [activeTab, setActiveTab] = useState<'about' | 'rules' | 'register'>('about');
+  const router = useRouter();
+
+  const isRegistered = registeredEvents.includes(event.id);
+
+  const handleRegister = async () => {
+    setIsRegistering(true);
+    try {
+      const res = await fetch("/api/events/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId: event.id }),
+      });
+
+      if (res.status === 401) {
+        router.push("/login");
+        return;
+      }
+
+      if (res.ok) {
+        await refreshEvents();
+      }
+    } catch (error) {
+      console.error("Registration failed", error);
+    } finally {
+      setIsRegistering(false);
+    }
+  };
+
+  const handleOptOut = async () => {
+    if(!confirm("CONFIRM_ABORT: Are you sure you want to withdraw from this mission?")) return;
+    setIsRegistering(true);
+    try {
+      const res = await fetch("/api/events/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId: event.id }),
+      });
+
+      if (res.ok) {
+        await refreshEvents();
+      } else {
+        alert("OPTIMIZATION_FAILED: Could not cancel.");
+      }
+    } catch (error) {
+      console.error("Cancellation failed", error);
+    } finally {
+      setIsRegistering(false);
+    }
+  };
 
   // Preload audio
   const playOpenSound = useAudio('/audio.wav', 0.1);
@@ -285,18 +336,40 @@ const EventCard = ({ event, index }: { event: EventData; index: number }) => {
                             Initialize your squad registration sequence. Slots are filling up fast.
                           </p>
                         </div>
-                        <Link href="/register" className="w-full max-w-xs">
-                          <button className="w-full py-4 bg-[#E661FF] text-black font-black font-mono tracking-widest hover:bg-white transition-colors uppercase text-sm flex items-center justify-center gap-2"
-                            style={{ clipPath: 'polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%)' }}>
-                            <Zap size={16} /> CONFIRM_ENTRY
+                        {isRegistered ? (
+                          <div className="w-full flex flex-col items-center gap-4">
+                              <button 
+                                className="w-full max-w-xs py-4 bg-green-600/20 border border-green-500 text-green-500 font-black font-mono tracking-widest transition-colors uppercase text-sm flex items-center justify-center gap-2 cursor-default"
+                                style={{ clipPath: 'polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%)' }}>
+                                <Shield size={16} /> ALREADY_REGISTERED
+                              </button>
+                              
+                              <button 
+                                onClick={handleOptOut}
+                                disabled={isRegistering}
+                                className="text-zinc-500 hover:text-[#FF003C] font-mono text-xs uppercase tracking-widest underline transition-colors"
+                              >
+                                {isRegistering ? "ABORTING..." : "[ OPT_OUT / CANCEL_MISSION ]"}
+                              </button>
+                          </div>
+                        ) : (
+                          <Link href={`/events/register?eventId=${event.id}`}>
+                            <button
+                              className="w-full max-w-xs py-4 bg-[#E661FF] text-black font-black font-mono tracking-widest hover:bg-white transition-colors uppercase text-sm flex items-center justify-center gap-2"
+                              style={{ clipPath: 'polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%)' }}>
+                              <Zap size={16} /> REGISTER_NOW
+                            </button>
+                          </Link>
+                        )}
+                        
+                        {/* Brochure Link Removed: File not found */}
+                        {/* 
+                        <a href="/brochure.pdf" download className="w-full max-w-xs opacity-50 cursor-not-allowed">
+                          <button disabled className="w-full py-4 border border-white/20 text-white font-mono tracking-widest uppercase text-sm flex items-center justify-center gap-2">
+                            <Download size={16} /> BROCHURE_OFFLINE
                           </button>
-                        </Link>
-                        <a href="/brochureroborumble3.o.pdf" download="RoboRumble_Brochure.pdf" className="w-full max-w-xs">
-                          <button className="w-full py-4 border border-[#00F0FF] text-[#00F0FF] font-black font-mono tracking-widest hover:bg-[#00F0FF]/10 transition-colors uppercase text-sm flex items-center justify-center gap-2"
-                            style={{ clipPath: 'polygon(5% 0, 100% 0, 100% 70%, 95% 100%, 0 100%, 0 30%)' }}>
-                            <Download size={16} /> DOWNLOAD_BROCHURE
-                          </button>
-                        </a>
+                        </a> 
+                        */}
                       </div>
                     )}
                   </div>
@@ -322,123 +395,28 @@ const EventCard = ({ event, index }: { event: EventData; index: number }) => {
 
 // --- Main Page ---
 export default function EventsPage() {
-  const events: EventData[] = [
-    {
-      id: "robo-wars",
-      title: "Robo Wars",
-      category: "Robotics",
-      icon: Shield,
-      desc: "The ultimate battle of steel and strategy. Build a remote-controlled bot to survive the arena.",
-      teamSize: "3-5 Members",
-      prize: "₹20,000",
-      rules: ["Width: Not More Than 45cm.", "Length: Not More Than 45cm", "Max weight: 6kg (+10% penalty limit).", "No explosives or flammable liquids."],
-      image: "/robo-war.jpeg"
-    },
-    {
-      id: "line-following",
-      title: "Line Following Bot",
-      category: "Robotics",
-      icon: Zap,
-      desc: "Speed and precision. Program your bot to follow the twisted path in the shortest time.",
-      teamSize: "3-5 Members",
-      prize: "₹15,000",
-      rules: ["Autonomous robots only.", "Dimensions: 30x30x30 cm Max.", "Onboard batteries only (External Prohibited)."],
-      image: "/line-following-robot.jpeg"
-    },
-    {
-      id: "robo-soccer",
-      title: "Robo Soccer",
-      category: "Robotics",
-      icon: BiFootball,
-      desc: "The Fifa of Robotics. Design bots to outmaneuver and outscore your opponents.",
-      teamSize: "2-4 Members",
-      prize: "₹20,000",
-      rules: ["Max Dimensions: 30x30x30 cm.", "Max Weight: 5kg.", "Dribbling mechanisms permitted under specific conditions."],
-      image: "/robo-soccer.jpeg"
-    },
-    {
-      id: "rc-flying",
-      title: "RC Flying",
-      category: "Aerial",
-      icon: Cpu,
-      desc: "Navigate obstacles at breakneck speeds. Test your piloting skills.",
-      teamSize: "Individual / Team of 2",
-      prize: "₹20,000",
-      rules: ["Fixed-wing aircraft only.", "Wingspan Max: 1.5m.", "Handmade models only (RTF Prohibited).", "Electric motors only."],
-      image: "/rc flying.jpeg"
-    },
-    {
-      id: "project-expo",
-      title: "Project Expo",
-      category: "Innovation",
-      icon: Users,
-      desc: "Showcase your hardware or software projects to industry experts.",
-      teamSize: "1-4 Members",
-      prize: "₹10,000",
-      rules: ["Working prototype required.", "Technical presentation mandatory.", "Live Q&A with industry judges."],
-      image: "/exhibition.jpeg"
-    },
-    {
-      id: "robo-obstacle-race",
-      title: "Robo Obstacle Race",
-      category: "Robotics",
-      icon: Bot,
-      desc: "A thrilling challenge where robots must navigate and overcome a series of obstacles, testing speed, control, and mechanical efficiency.",
-      teamSize: "3-5 Members",
-      prize: "₹20,000 Pool",
-      rules: ["Dimensions: 30x30x25 cm Max.", "Weight: Max 2kg (+5% tolerance).", "Power: Electric only, Max 12V DC.", "Wired (15m cable) or Wireless allowed."],
-      image: "/robo-race.jpeg"
-    },
-    {
-      id: "pick-and-drop",
-      title: "Pick and Drop Challenge",
-      category: "Robotics",
-      icon: Magnet,
-      desc: "A task-based challenge where robots must accurately pick objects from designated zones and place them at target locations, testing precision, control, and efficiency.",
-      teamSize: "3-5 Members",
-      prize: "₹20,000 Pool",
-      rules: ["Dimensions: 30x30x30 cm Max.", "Weight: Max 5kg.", "Power: Electric only, Max 12V DC.", "Must use Gripper/Claw/Magnet/Suction.", "Time limit: 15 minutes."],
-      image: "/pick-place.jpeg"
-    },
-    {
-      id: "defence-talk",
-      title: "Defence Talk",
-      category: "Seminar",
-      icon: Mic,
-      desc: "An informative session exploring modern defense technologies, strategies, and career opportunities in the defense sector.",
-      teamSize: "Open to All",
-      prize: "Certificate",
-      rules: ["Discipline mandatory.", "Q&A in designated time only.", "No recording without permission."],
-      image: "/defence-talk.jpeg"
-    },
-    {
-      id: "defence-expo",
-      title: "Defence Expo",
-      category: "Exhibition",
-      icon: Rocket,
-      desc: "An exhibition showcasing defense technologies, equipment, innovations, and student-led defense projects.",
-      teamSize: "Individual / Team",
-      prize: "Certificate",
-      rules: ["Setup within allotted time.", "Safe handling of exhibits.", "Misconduct leads to strict action."],
-      image: "/defence-expo.jpeg"
-    },
-    {
-      id: "e-sports",
-      title: "E-SPORTS",
-      category: "Gaming",
-      icon: Gamepad2,
-      desc: "Competitive digital arena showcasing strategy and reflexes in high-intensity battles.",
-      teamSize: "4 Members (Squad)",
-      prize: "₹10,000 Pool",
-      rules: ["Squad Mode only.", "No iPads/Tablets/Emulators allowed.", "Registered IDs must remain consistent."],
-      image: "/e-sports.jpeg"
-    },
-  ];
+  const [registeredEvents, setRegisteredEvents] = useState<string[]>([]);
+
+  const fetchUserData = async () => {
+    try {
+      const res = await fetch("/api/auth/me");
+      if (res.ok) {
+        const data = await res.json();
+        setRegisteredEvents(data.user.events || []);
+      }
+    } catch (error) {
+      console.error("Failed to fetch user data", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
 
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
       <MatrixBackground color="#003B00" text="" />
-      <Navbar />
 
       <div className="relative z-10 pt-40 pb-32 container mx-auto px-4 md:px-8">
         {/* Page Header */}
@@ -475,8 +453,14 @@ export default function EventsPage() {
 
         {/* Dynamic Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {events.map((event, i) => (
-            <EventCard key={event.id} event={event} index={i} />
+          {events.map((event: any, i: number) => (
+            <EventCard 
+                key={event.id} 
+                event={event} 
+                index={i} 
+                registeredEvents={registeredEvents}
+                refreshEvents={fetchUserData}
+            />
           ))}
         </div>
       </div>

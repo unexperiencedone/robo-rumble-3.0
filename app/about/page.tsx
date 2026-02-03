@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
 import MatrixBackground from "../components/MatrixBackground";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
@@ -198,7 +197,6 @@ export default function AboutPage() {
       <MatrixBackground color="#043352ff" text="" />
       
       {/* Navbar Overlay */}
-      <Navbar />
 
       <div className="relative z-10 pt-40 pb-20 container mx-auto px-4 md:px-8">
         {/* Page Header */}

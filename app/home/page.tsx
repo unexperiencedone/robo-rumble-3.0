@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Calendar, MapPin, Download, Shield, Trophy, Users, Terminal } from "lucide-react";
-import Navbar from "../components/Navbar";
 import MatrixBackground from "../components/MatrixBackground";
 import Footer from "../components/Footer";
 import { SlotText } from "../components/SlotText";
@@ -241,7 +240,8 @@ export default function Home() {
       {/* Background Matrix Effect */}
       <MatrixBackground color="#003B00" text="" />
 
-      <Navbar />
+      {/* Background Matrix Effect */}
+      <MatrixBackground color="#003B00" text="" />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-20">

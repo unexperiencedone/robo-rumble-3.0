@@ -1,37 +1,87 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "../components/Navbar";
+import { useRouter } from "next/navigation";
 import MatrixBackground from "../components/MatrixBackground";
 import { SlotText } from "../components/SlotText";
 import Footer from "../components/Footer";
-import { Terminal, ShieldAlert, Cpu, UserPlus, Zap } from "lucide-react";
+import { Terminal, ShieldAlert, Cpu, UserPlus, Zap, Lock } from "lucide-react";
 import { useAudio } from "../hooks/useAudio";
+import Link from "next/link";
+import { useAuth } from "../context/AuthContext";
 
 export default function RegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const { refetchUser } = useAuth();
+
+  // Form State
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    college: "",
+  });
 
   // Preload audio
   const playSubmission = useAudio('audio.wav', 0.1);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     setIsSubmitting(true);
     playSubmission();
 
-    // Simulate high-speed data uplink
-    setTimeout(() => {
+    if (formData.password !== formData.confirmPassword) {
+      setError("PASSWORDS_DO_NOT_MATCH_SECURITY_BREACH");
       setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          college: formData.college,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "UPLINK_FAILED");
+      }
+
       setIsSuccess(true);
       playSubmission();
-    }, 2000);
+      
+      // Auto-redirect after success
+      setTimeout(async () => {
+        await refetchUser(); // Update navbar state immediately
+        router.push("/account");
+      }, 3000);
+
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
       <MatrixBackground color="#003B00" text="" />
-      <Navbar />
 
       <div className="relative z-10 pt-40 pb-20 container mx-auto px-4 md:px-8 flex flex-col items-center">
         {/* Header */}
@@ -80,25 +130,35 @@ export default function RegisterPage() {
                     <Zap className="text-[#00F0FF]" size={40} />
                   </div>
                   <h3 className="text-2xl md:text-3xl lg:text-4xl font-black font-mono text-white tracking-tighter uppercase">Uplink_Successful</h3>
-                  <p className="text-zinc-500 font-mono text-xs md:text-sm uppercase tracking-widest px-4">Unit Data Integrated into Mainframe. Standby for briefing.</p>
-                  <button 
-                    onClick={() => setIsSuccess(false)}
-                    className="mt-8 px-6 md:px-8 py-3 border border-[#00F0FF] text-[#00F0FF] font-mono text-xs hover:bg-[#00F0FF]/10 transition-all uppercase"
-                  >
-                    Return_to_Terminal
-                  </button>
+                  <p className="text-zinc-500 font-mono text-xs md:text-sm uppercase tracking-widest px-4">Unit Data Integrated into Mainframe. Establishing secure connection...</p>
+                  <Link href="/account">
+                    <button 
+                      className="mt-8 px-6 md:px-8 py-3 border border-[#00F0FF] text-[#00F0FF] font-mono text-xs hover:bg-[#00F0FF]/10 transition-all uppercase"
+                    >
+                      Enter_Command_Center
+                    </button>
+                  </Link>
                 </div>
               ) : (
                 <>
+                  {error && (
+                    <div className="p-4 bg-red-950/30 border border-[#FF003C]/50 text-[#FF003C] font-mono text-xs">
+                      ERROR: {error}
+                    </div>
+                  )}
+
                   <div className="grid md:grid-cols-2 gap-6 md:gap-8">
                     {/* Input Field 1 */}
                     <div className="space-y-2 group">
                       <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
-                        Unit_Identity (Full Name)
+                        Unit_Identity (Team Name)
                       </label>
                       <input 
                         required
                         type="text" 
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
                         placeholder="ENTER_NAME..."
                         className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
                       />
@@ -106,14 +166,54 @@ export default function RegisterPage() {
                     {/* Input Field 2 */}
                     <div className="space-y-2 group">
                       <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
-                        Communication_Channel (Email)
+                        Communication_Channel (Leader Email)
                       </label>
                       <input 
                         required
                         type="email" 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         placeholder="EMAIL@PROTO.COM"
                         className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
                       />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+                    <div className="space-y-2 group">
+                      <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
+                         Secure_Key (Password)
+                      </label>
+                      <div className="relative">
+                        <input 
+                            required
+                            type="password" 
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            placeholder="********"
+                            className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
+                        />
+                        <Lock className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600" size={14} />
+                      </div>
+                    </div>
+                    <div className="space-y-2 group">
+                      <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
+                        Verify_Key (Confirm Password)
+                      </label>
+                       <div className="relative">
+                        <input 
+                            required
+                            type="password" 
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            placeholder="********"
+                            className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
+                        />
+                        <Lock className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600" size={14} />
+                      </div>
                     </div>
                   </div>
 
@@ -125,23 +225,12 @@ export default function RegisterPage() {
                       <input 
                         required
                         type="text" 
+                        name="college"
+                        value={formData.college}
+                        onChange={handleChange}
                         placeholder="IDENTIFY_ORIGIN..."
                         className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
                       />
-                    </div>
-                    <div className="space-y-2 group">
-                      <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
-                        Mission_Objective (Event)
-                      </label>
-                      <select 
-                        required
-                        className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all appearance-none"
-                      >
-                        <option value="" className="bg-zinc-950">SELECT_PROTOCOL...</option>
-                        <option value="robo-wars" className="bg-zinc-950">ROBO_WARS</option>
-                        <option value="line-follower" className="bg-zinc-950">LINE_FOLLOWER</option>
-                        <option value="e-sports" className="bg-zinc-950">E_SPORTS</option>
-                      </select>
                     </div>
                   </div>
 
@@ -171,6 +260,13 @@ export default function RegisterPage() {
                         </>
                       )}
                     </button>
+                    
+                     <div className="text-center">
+                        <Link href="/login" className="text-zinc-500 font-mono text-[10px] hover:text-[#00F0FF] transition-colors uppercase tracking-widest border-b border-zinc-800 pb-1">
+                            &gt;&gt; Already_Enrolled? Access_Terminal
+                        </Link>
+                    </div>
+
                   </div>
                 </>
               )}

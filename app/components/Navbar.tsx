@@ -2,10 +2,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { X, Menu } from 'lucide-react';
+import { X, Menu, User } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user, loading } = useAuth();
+
 
   /* Nav Items adapted for Robo Rumble */
   const navItems = [
@@ -54,14 +57,35 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Register Button - Hidden on mobile/tablet */}
-          <Link href="/register" className="hidden lg:block">
-            <button className="bg-[#00E5FF]/90 text-black font-bold px-6 py-2 flex items-center gap-2 hover:bg-[#33EFFF] transition-colors shadow-[0_0_15px_rgba(0,229,255,0.4)]" style={{ clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)' }}>
-              REGISTER
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
-          </Link>
+          <div className="hidden lg:flex items-center gap-4">
+             {loading ? (
+                // Loading Placeholder to prevent layout shift or flicker
+                <div className="w-[100px] h-[40px] animate-pulse bg-white/5 border border-white/10" />
+             ) : user ? (
+                <Link href="/account">
+                  <button className="bg-[#00E5FF]/10 border border-[#00E5FF] text-[#00E5FF] font-bold px-6 py-2 flex items-center gap-2 hover:bg-[#00E5FF]/20 transition-all font-mono tracking-widest text-sm shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+                    <User size={16} />
+                    {user.name.toUpperCase()}
+                  </button>
+                </Link>
+             ) : (
+               <>
+                 <Link href="/login">
+                    <button className="text-white hover:text-[#00E5FF] font-bold px-4 py-2 font-mono tracking-widest text-sm border border-white/20 hover:border-[#00E5FF] transition-all">
+                      LOGIN
+                    </button>
+                 </Link>
+                 <Link href="/register">
+                    <button className="bg-[#00E5FF]/90 text-black font-bold px-6 py-2 flex items-center gap-2 hover:bg-[#33EFFF] transition-colors shadow-[0_0_15px_rgba(0,229,255,0.4)]" style={{ clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)' }}>
+                      REGISTER
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <path d="M9 18l6-6-6-6" />
+                      </svg>
+                    </button>
+                 </Link>
+               </>
+             )}
+          </div>
 
           {/* Mobile Hamburger Menu - Visible on mobile/tablet */}
           <button
@@ -131,16 +155,34 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Sidebar Register Button */}
-        <div className="sticky bottom-0 left-0 right-0 p-6 border-t border-white/10 bg-black">
-          <Link href="/register" onClick={closeSidebar}>
-            <button className="w-full bg-[#00E5FF]/90 text-black font-bold py-4 px-6 flex items-center justify-center gap-2 hover:bg-[#33EFFF] transition-colors shadow-[0_0_15px_rgba(0,229,255,0.4)]" style={{ clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)' }}>
-              REGISTER
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
-          </Link>
+        {/* Sidebar Register/Login Buttons */}
+        <div className="sticky bottom-0 left-0 right-0 p-6 border-t border-white/10 bg-black space-y-3">
+          {loading ? (
+             <div className="w-full h-[50px] animate-pulse bg-white/5 border border-white/10" />
+          ) : user ? (
+            <Link href="/account" onClick={closeSidebar}>
+               <button className="w-full bg-[#00E5FF]/10 border border-[#00E5FF] text-[#00E5FF] font-bold py-4 px-6 flex items-center justify-center gap-2 hover:bg-[#00E5FF]/20 transition-all font-mono tracking-widest text-sm shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+                  <User size={16} />
+                  {user.name.toUpperCase()}
+               </button>
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" onClick={closeSidebar}>
+                 <button className="w-full bg-transparent border border-white/20 text-white font-bold py-3 px-6 hover:border-[#00E5FF] hover:text-[#00E5FF] transition-all font-mono tracking-widest text-sm">
+                    ACCESS_TERMINAL
+                 </button>
+              </Link>
+              <Link href="/register" onClick={closeSidebar}>
+                <button className="w-full bg-[#00E5FF]/90 text-black font-bold py-4 px-6 flex items-center justify-center gap-2 hover:bg-[#33EFFF] transition-colors shadow-[0_0_15px_rgba(0,229,255,0.4)]" style={{ clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)' }}>
+                  REGISTER
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                    <path d="M9 18l6-6-6-6" />
+                  </svg>
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>
