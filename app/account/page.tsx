@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import MatrixBackground from "../components/MatrixBackground";
@@ -175,9 +176,12 @@ export default function AccountPage() {
                  </div>
                  
                  {user.paymentStatus !== 'paid' && (
-                     <button className="mt-4 w-full py-2 bg-[#FF003C]/10 border border-[#FF003C] text-[#FF003C] hover:bg-[#FF003C] hover:text-black transition-all font-mono text-xs uppercase tracking-widest">
+                     <Link 
+                        href="/payment"
+                        className="mt-4 w-full py-2 bg-[#FF003C]/10 border border-[#FF003C] text-[#FF003C] hover:bg-[#FF003C] hover:text-black transition-all font-mono text-xs uppercase tracking-widest block text-center"
+                     >
                          Initiate Payment
-                     </button>
+                     </Link>
                  )}
             </div>
         </div>

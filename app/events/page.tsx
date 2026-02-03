@@ -343,14 +343,6 @@ const EventCard = ({ event, index, registeredEvents, refreshEvents }: { event: E
                                 style={{ clipPath: 'polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%)' }}>
                                 <Shield size={16} /> ALREADY_REGISTERED
                               </button>
-                              
-                              <button 
-                                onClick={handleOptOut}
-                                disabled={isRegistering}
-                                className="text-zinc-500 hover:text-[#FF003C] font-mono text-xs uppercase tracking-widest underline transition-colors"
-                              >
-                                {isRegistering ? "ABORTING..." : "[ OPT_OUT / CANCEL_MISSION ]"}
-                              </button>
                           </div>
                         ) : (
                           <Link href={`/events/register?eventId=${event.id}`}>

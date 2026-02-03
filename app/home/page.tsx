@@ -49,40 +49,41 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
   };
 
   return (
-    <div
-      className="relative group cursor-crosshair"
-      onClick={handleClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Asset Preview Card */}
-      <div
-        className="relative p-6 bg-black/40 border-l-2 border-t border-[#00F0FF]/30 hover:bg-[#00F0FF]/5 transition-all duration-500 backdrop-blur-sm h-full"
-        style={{ clipPath: 'polygon(0 0, 95% 0, 100% 10%, 100% 100%, 5% 100%, 0 90%)' }}
-      >
-        <div className="text-[#00F0FF] font-mono text-[8px] mb-4 opacity-50 tracking-tighter uppercase">
-          // ASSET_LOG: {member.name.split(' ')[0]}
-        </div>
+    <div className="relative group cursor-crosshair h-full" onClick={handleClick}>
+         {/* Refined Professional Frame */}
+         <div 
+           className="relative p-8 bg-black/60 border border-white/10 hover:border-[#00F0FF]/50 transition-all duration-500 backdrop-blur-md h-full shadow-lg hover:shadow-[#00F0FF]/10"
+           style={{ clipPath: 'polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%)' }}
+         >
+            {/* Top Security Line */}
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#00F0FF]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
-        <div className="relative w-32 h-32 mx-auto mb-6 transition-all duration-500 overflow-hidden border border-white/10 p-1">
-          <Image src={member.image} alt={member.name} fill className="object-cover" />
-          <div className="absolute inset-0 border border-[#00F0FF]/20 group-hover:border-[#00F0FF] transition-colors" />
-        </div>
+            <div className="text-[#00F0FF] font-mono text-[9px] mb-6 opacity-40 tracking-widest uppercase flex justify-between">
+              <span>// ID: {member.name.split(' ')[0]}</span>
+              <span className="group-hover:text-white transition-colors">SECURE_LEVEL_5</span>
+            </div>
 
-        <div className="text-center">
-          <h3 className="text-xl font-black text-white font-mono uppercase tracking-tighter group-hover:text-[#00F0FF] transition-colors">
-            {member.name}
-          </h3>
-          <p className="text-[#00F0FF] font-mono text-[10px] mt-1 font-bold tracking-widest uppercase">
-            {member.role}
-          </p>
-        </div>
+            {/* Larger Photo Container */}
+            <div className="relative w-48 h-48 mx-auto mb-8 transition-all duration-500 rounded-sm overflow-hidden border-2 border-white/5 group-hover:border-[#00F0FF]/30 p-1 bg-black/50">
+              <Image src={member.image} alt={member.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              {/* Corner Accents */}
+              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#00F0FF] opacity-0 group-hover:opacity-100 transition-all" />
+              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-[#00F0FF] opacity-0 group-hover:opacity-100 transition-all" />
+            </div>
 
-        {isHovered && <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00F0FF]/10 to-transparent h-[20%] w-full animate-scan pointer-events-none" />}
-      </div>
+            <div className="text-center relative z-10">
+              <h3 className="text-xl font-black text-white font-mono uppercase tracking-tight mb-2 group-hover:text-[#00F0FF] transition-colors">
+                {member.name}
+              </h3>
+              <div className="h-[1px] w-12 bg-[#00F0FF]/30 mx-auto my-3" />
+              <p className="text-zinc-400 font-mono text-xs font-bold tracking-widest uppercase">
+                {member.role}
+              </p>
+            </div>
+         </div>
 
-      {/* Full Details Dialog */}
-      {showDetails && (
+         {/* Full Details Dialog */}
+         {showDetails && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 md:p-4 lg:p-12 pointer-events-none">
           <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
 
@@ -394,7 +395,7 @@ export default function Home() {
       </section>
 
       {/* Advisors & Leadership Section */}
-      <section className="py-24 relative z-10">
+      <section className="py-24 relative z-10 bg-zinc-900/90 border-y border-white/5 backdrop-blur-sm">
         <div className="container mx-auto px-4 md:px-6">
           {/* Section Header */}
           <div className="mb-20 text-center">

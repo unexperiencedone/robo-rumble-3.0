@@ -20,6 +20,7 @@ export default function RegisterPage() {
   // Form State
   const [formData, setFormData] = useState({
     name: "",
+    teamName: "", // Added teamName
     email: "",
     password: "",
     confirmPassword: "",
@@ -34,6 +35,7 @@ export default function RegisterPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    // ... (existing preventDefault and basic checks)
     e.preventDefault();
     setError("");
     setIsSubmitting(true);
@@ -51,12 +53,14 @@ export default function RegisterPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
+          teamName: formData.teamName, // Send teamName
           email: formData.email,
           password: formData.password,
           college: formData.college,
         }),
       });
 
+      // ... (existing response handling)
       const data = await res.json();
 
       if (!res.ok) {
@@ -80,52 +84,29 @@ export default function RegisterPage() {
   };
 
   return (
+    // ... (existing JSX until inputs)
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
       <MatrixBackground color="#003B00" text="" />
 
       <div className="relative z-10 pt-40 pb-20 container mx-auto px-4 md:px-8 flex flex-col items-center">
-        {/* Header */}
-        <div className="mb-16 text-center w-full">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="h-[2px] w-20 bg-[#FF003C]" />
-            <span className="text-[#FF003C] font-mono text-[10px] md:text-sm font-bold tracking-[0.4em]">INITIATING_UNIT_ENROLLMENT</span>
-          </div>
-          <h1 className="text-3xl md:text-5xl lg:text-7xl font-black font-mono tracking-tighter uppercase leading-[0.85] mb-8 flex flex-col items-center">
-            <div className="relative inline-block glitch-container">
-              <span className="absolute top-0 left-0 text-[#FF003C] mix-blend-screen opacity-70 glitch-layer-red">
-                ENLIST
-              </span>
-              <span className="absolute top-0 left-0 text-[#00F0FF] mix-blend-screen opacity-60 glitch-layer-cyan">
-                ENLIST
-              </span>
-              <span className="relative text-white">ENLIST</span>
-            </div>
-            <div className="flex justify-center w-full">
-              <SlotText text="CORE_UNIT_" className="text-3xl md:text-5xl lg:text-7xl" />
-            </div>
-          </h1>
-        </div>
-
+        {/* ... Header ... */}
+        
         {/* Tactical Registration Form */}
         <div className="w-full max-w-3xl relative">
-          <div className="absolute -top-10 left-0 text-[#00F0FF] font-mono text-[8px] md:text-[10px] opacity-50 uppercase tracking-widest">
-            // SECURE_UPLINK_PROTOCOL: v3.0.4
-          </div>
-
+             {/* ... Form styling ... */}
+          
           <form
             onSubmit={handleSubmit}
             className="relative p-1 bg-[#050505] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden"
             style={{ clipPath: 'polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%)' }}
           >
-            {/* Form Header Bar */}
-            <div className="bg-[#00F0FF] text-black px-3 md:px-6 py-2 flex justify-between items-center font-mono text-[8px] md:text-[10px] font-black uppercase tracking-widest">
-              <span className="flex items-center gap-2"><Terminal size={12} /> Deployment_Form</span>
-              <span className="hidden sm:inline">AUTH: GUEST_INITIATED</span>
-            </div>
+            {/* ... Form Header Bar ... */}
 
             <div className="p-4 md:p-8 lg:p-12 space-y-6 md:space-y-8 bg-zinc-950/50">
               {isSuccess ? (
-                <div className="py-20 text-center space-y-6 animate-glitch-entry">
+                 // ... Success Message ...
+                 // (Using existing success message logic)
+                 <div className="py-20 text-center space-y-6 animate-glitch-entry">
                   <div className="w-20 h-20 border-2 border-[#00F0FF] rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_20px_#00F0FF]">
                     <Zap className="text-[#00F0FF]" size={40} />
                   </div>
@@ -148,10 +129,10 @@ export default function RegisterPage() {
                   )}
 
                   <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-                    {/* Input Field 1 */}
+                    {/* Input Field 1: Name */}
                     <div className="space-y-2 group">
                       <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
-                        Unit_Identity (Team Name)
+                        Unit_Identity (Leader Name)
                       </label>
                       <input
                         required
@@ -163,10 +144,10 @@ export default function RegisterPage() {
                         className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
                       />
                     </div>
-                    {/* Input Field 2 */}
+                    {/* Input Field 2: Email */}
                     <div className="space-y-2 group">
                       <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
-                        Communication_Channel (Leader Email)
+                        Communication_Channel (Email)
                       </label>
                       <input
                         required
@@ -175,6 +156,41 @@ export default function RegisterPage() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="EMAIL@PROTO.COM"
+                        className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
+                      />
+                    </div>
+                  </div>
+
+                  {/* New Row: Team Name & College */}
+                  <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+                     {/* Team Name Input */}
+                     <div className="space-y-2 group">
+                      <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
+                        Team_Designation (Team Name)
+                      </label>
+                      <input
+                        required
+                        type="text" 
+                        name="teamName"
+                        value={formData.teamName}
+                        onChange={handleChange}
+                        placeholder="ENTER_TEAM_NAME..."
+                        className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
+                      />
+                    </div>
+
+                    {/* College Input */}
+                    <div className="space-y-2 group">
+                      <label className="text-zinc-500 font-mono text-[9px] md:text-[10px] uppercase tracking-widest group-focus-within:text-[#00F0FF] transition-colors">
+                        Base_Origin (College/Org)
+                      </label>
+                      <input
+                        required
+                        type="text" 
+                        name="college"
+                        value={formData.college}
+                        onChange={handleChange}
+                        placeholder="IDENTIFY_ORIGIN..."
                         className="w-full bg-black/50 border-l-2 border-zinc-800 p-3 md:p-4 font-mono text-xs md:text-sm text-white focus:outline-none focus:border-[#00F0FF] focus:bg-[#00F0FF]/5 transition-all placeholder:text-zinc-700"
                       />
                     </div>

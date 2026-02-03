@@ -11,6 +11,11 @@ export const users = pgTable("users", {
   teamMembers: text("team_members").array(), // Store team members if needed
   paymentStatus: text("payment_status").default("pending"),
   role: text("role").default("USER"), // 'USER' | 'ADMIN'
+  teamName: text("team_name"), // Team name for the user
+  paidEvents: text("paid_events").array(), // Events that have been paid for
+  transactionId: text("transaction_id"),
+  screenshotUrl: text("screenshot_url"),
+  declaredAmount: text("declared_amount"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

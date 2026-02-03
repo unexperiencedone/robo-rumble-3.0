@@ -8,6 +8,10 @@ interface User {
   email: string;
   college: string;
   events: string[];
+  role: string;
+  teamName?: string;
+  paidEvents?: string[];
+  paymentStatus?: string;
 }
 
 interface AuthContextType {

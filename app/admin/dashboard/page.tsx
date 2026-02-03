@@ -93,25 +93,16 @@ export default function AdminDashboard() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto space-y-8">
-          {/* Header */}
-          <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[#FF003C]/30 pb-6">
+          {/* Header Removed (Handled by Sidebar) */}
+          <div className="flex justify-between items-end border-b border-[#FF003C]/30 pb-4 mb-6">
               <div>
-                  <h1 className="text-3xl font-black text-[#FF003C] uppercase tracking-tighter flex items-center gap-3">
-                      <Shield /> COMMAND_CENTER
-                  </h1>
-                  <p className="text-zinc-500 text-xs uppercase tracking-widest mt-1">
-                      Welcome, Commander {user?.name}
-                  </p>
+                   <h2 className="text-2xl font-black text-white uppercase tracking-tighter">Mission Overview</h2>
+                   <p className="text-zinc-500 text-xs font-mono uppercase">System Status: ONLINE</p>
               </div>
-              <div className="flex gap-4">
-                  <button onClick={fetchUsers} className="p-2 border border-zinc-800 hover:border-[#FF003C] hover:text-[#FF003C] transition-colors">
-                      <RefreshCw size={20} />
-                  </button>
-                  <button onClick={() => router.push("/")} className="px-4 py-2 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white uppercase text-xs font-bold tracking-widest">
-                      EXIT_CONSOLE
-                  </button>
-              </div>
-          </header>
+               <button onClick={fetchUsers} className="p-2 border border-zinc-800 hover:border-[#FF003C] hover:text-[#FF003C] transition-colors">
+                  <RefreshCw size={20} />
+              </button>
+          </div>
 
           {/* Stats Bar */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

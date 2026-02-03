@@ -87,7 +87,10 @@ export async function POST(req: Request) {
         const currentEvents = user.events || [];
         if (!currentEvents.includes(eventId)) {
             await db.update(users)
-                .set({ events: [...currentEvents, eventId] })
+                .set({ 
+                    events: [...currentEvents, eventId],
+                    paymentStatus: "pending" // Reset status to due for new calculation
+                })
                 .where(eq(users.id, userId));
         }
 

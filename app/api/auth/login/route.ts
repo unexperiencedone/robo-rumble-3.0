@@ -9,16 +9,27 @@ import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json();
+    const body = await req.json();
+    const { email, password } = body;
+
+    console.log("Login attempt for:", email);
 
     if (!email || !password) {
       return NextResponse.json({ error: "Missing credentials" }, { status: 400 });
     }
 
-    // Find user
-    const [user] = await db.select().from(users).where(eq(users.email, email));
+    // Find user with explicit selection to avoid schema sync issues
+    const [user] = await db.select({
+        id: users.id,
+        name: users.name,
+        email: users.email,
+        password: users.password,
+        role: users.role,
+        teamName: users.teamName
+    }).from(users).where(eq(users.email, email));
 
     if (!user) {
+      console.log("User not found:", email);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
@@ -26,12 +37,13 @@ export async function POST(req: Request) {
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
+      console.log("Invalid password for:", email);
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
     // Create Token
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET || "default_secret",
       { expiresIn: "7d" }
     );
@@ -44,10 +56,11 @@ export async function POST(req: Request) {
       path: "/",
     });
 
-    return NextResponse.json({ message: "Login successful", user: { name: user.name, email: user.email, role: user.role } }, { status: 200 });
+    console.log("Login successful:", email);
+    return NextResponse.json({ message: "Login successful", user: { name: user.name, email: user.email, role: user.role, teamName: user.teamName } }, { status: 200 });
 
   } catch (error) {
-    console.error("Login Error:", error);
+    console.error("Login Error Details:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -11,7 +11,8 @@ export const events = [
       teamSize: "3-5 Members",
       prize: "₹20,000",
       rules: ["Width: Not More Than 45cm.", "Length: Not More Than 45cm", "Max weight: 6kg (+10% penalty limit).", "No explosives or flammable liquids."],
-      image: "/robo-war.jpeg"
+      image: "/robo-war.jpeg",
+      cost: 500
     },
     {
       id: "line-following",
@@ -22,7 +23,8 @@ export const events = [
       teamSize: "3-5 Members",
       prize: "₹15,000",
       rules: ["Autonomous robots only.", "Dimensions: 30x30x30 cm Max.", "Onboard batteries only (External Prohibited)."],
-      image: "/line-following-robot.jpeg"
+      image: "/line-following-robot.jpeg",
+      cost: 300
     },
     {
       id: "robo-soccer",
@@ -33,7 +35,8 @@ export const events = [
       teamSize: "2-4 Members",
       prize: "₹20,000",
       rules: ["Max Dimensions: 30x30x30 cm.", "Max Weight: 5kg.", "Dribbling mechanisms permitted under specific conditions."],
-      image: "/robo-soccer.jpeg"
+      image: "/robo-soccer.jpeg",
+      cost: 400
     },
     {
       id: "rc-flying",
@@ -44,7 +47,8 @@ export const events = [
       teamSize: "Individual / Team of 2",
       prize: "₹20,000",
       rules: ["Fixed-wing aircraft only.", "Wingspan Max: 1.5m.", "Handmade models only (RTF Prohibited).", "Electric motors only."],
-      image: "/rc flying.jpeg"
+      image: "/rc flying.jpeg",
+      cost: 400
     },
     {
       id: "project-expo",
@@ -55,7 +59,8 @@ export const events = [
       teamSize: "1-4 Members",
       prize: "₹10,000",
       rules: ["Working prototype required.", "Technical presentation mandatory.", "Live Q&A with industry judges."],
-      image: "/exhibition.jpeg"
+      image: "/exhibition.jpeg",
+      cost: 250
     },
     {
       id: "robo-obstacle-race",
@@ -66,7 +71,8 @@ export const events = [
       teamSize: "3-5 Members",
       prize: "₹20,000 Pool",
       rules: ["Dimensions: 30x30x25 cm Max.", "Weight: Max 2kg (+5% tolerance).", "Power: Electric only, Max 12V DC.", "Wired (15m cable) or Wireless allowed."],
-      image: "/robo-race.jpeg"
+      image: "/robo-race.jpeg",
+      cost: 300
     },
     {
       id: "pick-and-drop",
@@ -77,7 +83,8 @@ export const events = [
       teamSize: "3-5 Members",
       prize: "₹20,000 Pool",
       rules: ["Dimensions: 30x30x30 cm Max.", "Weight: Max 5kg.", "Power: Electric only, Max 12V DC.", "Must use Gripper/Claw/Magnet/Suction.", "Time limit: 15 minutes."],
-      image: "/pick-place.jpeg"
+      image: "/pick-place.jpeg",
+      cost: 300
     },
     {
       id: "defence-talk",
@@ -88,7 +95,8 @@ export const events = [
       teamSize: "Open to All",
       prize: "Certificate",
       rules: ["Discipline mandatory.", "Q&A in designated time only.", "No recording without permission."],
-      image: "/defence-talk.jpeg"
+      image: "/defence-talk.jpeg",
+      cost: 0
     },
     {
       id: "defence-expo",
@@ -99,7 +107,8 @@ export const events = [
       teamSize: "Individual / Team",
       prize: "Certificate",
       rules: ["Setup within allotted time.", "Safe handling of exhibits.", "Misconduct leads to strict action."],
-      image: "/defence-expo.jpeg"
+      image: "/defence-expo.jpeg",
+      cost: 0
     },
     {
       id: "e-sports",
@@ -110,6 +119,7 @@ export const events = [
       teamSize: "4 Members (Squad)",
       prize: "₹10,000 Pool",
       rules: ["Squad Mode only.", "No iPads/Tablets/Emulators allowed.", "Registered IDs must remain consistent."],
-      image: "/e-sports.jpeg"
+      image: "/e-sports.jpeg",
+      cost: 200
     },
 ];

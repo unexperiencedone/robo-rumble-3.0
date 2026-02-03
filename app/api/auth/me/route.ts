@@ -26,6 +26,9 @@ export async function GET() {
       college: users.college,
       events: users.events,
       paymentStatus: users.paymentStatus,
+      role: users.role,
+      teamName: users.teamName,
+      paidEvents: users.paidEvents,
       createdAt: users.createdAt
     }).from(users).where(eq(users.id, decoded.userId));
 

@@ -9,9 +9,9 @@ import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
     try {
-        const { name, email, password, college } = await req.json();
+        const { name, teamName, email, password, college } = await req.json();
 
-        if (!name || !email || !password || !college) {
+        if (!name || !teamName || !email || !password || !college) {
             return NextResponse.json({ error: "ALL_FIELDS_REQUIRED" }, { status: 400 });
         }
 
@@ -28,6 +28,7 @@ export async function POST(req: Request) {
         // Create user
         const [newUser] = await db.insert(users).values({
             name,
+            teamName,
             email,
             password: hashedPassword,
             college,

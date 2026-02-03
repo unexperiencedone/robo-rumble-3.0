@@ -12,6 +12,7 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const isIntroPage = pathname === "/";
+  const isAdminPage = pathname.startsWith("/admin");
 
   return (
     <html lang="en" className="bg-black">
@@ -22,7 +23,7 @@ export default function RootLayout({
       </head>
       <body>
         <AuthProvider>
-          {!isIntroPage && <Navbar />}
+          {!isIntroPage && !isAdminPage && <Navbar />}
           {children}
         </AuthProvider>
       </body>

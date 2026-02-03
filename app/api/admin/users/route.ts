@@ -17,19 +17,19 @@ export async function GET(req: Request) {
 
         // Verify Admin Token
         const decoded = jwt.verify(token.value, process.env.JWT_SECRET || "default_secret") as { userId: number, email: string };
-        
+
         // Check if user is admin in DB
         const [adminUser] = await db.select().from(users).where(eq(users.id, decoded.userId));
-        
+
         if (!adminUser || adminUser.role !== 'ADMIN') {
-             return NextResponse.json({ error: "FORBIDDEN: ADMIN_ACCESS_ONLY" }, { status: 403 });
+            return NextResponse.json({ error: "FORBIDDEN: ADMIN_ACCESS_ONLY" }, { status: 403 });
         }
 
         // Fetch all users with their registrations
         // Note: Drizzle doesn't support easy relations without defining them in schema with relations(), 
         // so we might need to do a join or separate queries. 
         // For simplicity in this stack, let's fetch users and format them.
-        
+
         const allUsers = await db.select({
             id: users.id,
             name: users.name,
@@ -38,12 +38,15 @@ export async function GET(req: Request) {
             role: users.role,
             paymentStatus: users.paymentStatus,
             events: users.events,
+            transactionId: users.transactionId,
+            screenshotUrl: users.screenshotUrl,
+            declaredAmount: users.declaredAmount,
             createdAt: users.createdAt
         }).from(users).orderBy(desc(users.createdAt));
-        
+
         // We could also join with registrations to get specific team details if needed
         // but for payment approval, user paymentStatus is on the user table itself currently.
-        
+
         return NextResponse.json({ users: allUsers }, { status: 200 });
 
     } catch (error) {
