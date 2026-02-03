@@ -15,6 +15,7 @@ const Navbar = () => {
     { label: 'SCHEDULE', color: '#00F0FF', href: '/schedule' }, // Cyan
     { label: 'TEAM', color: '#f200ffff', href: '/team' },       // Purple
     { label: 'SPONSORS', color: '#FF003C', href: '/sponsors' },       // Red
+    { label: 'ANNOUNCEMENTS', color: '#00F0FF', href: '/announcement' }, // Cyan
   ];
 
   const toggleSidebar = () => {
