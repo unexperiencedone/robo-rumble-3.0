@@ -158,14 +158,27 @@ const AssetCard = ({ member, delay }: { member: TeamMember; delay: number }) => 
 
 // --- Main TeamPage ---
 export default function TeamPage() {
-  const students = [
+  const studentCoordinators = [
     { name: "Raju Ranjan Yadav", role: "Lead Student Coordinator", dept: "Robo Rumble Core", image: "/Raju.jpeg" },
     { name: "Devanshu Verma", role: "Technical Student Coordinator", dept: "Robo Rumble Core", image: "/devanshu.jpeg" },
     { name: "Qaaid Iqbal Badri", role: "Strategic Student Coordinator", dept: "Robo Rumble Core", image: "/qaaid.jpeg" },
     { name: "Ayush kanoujiya", role: "Student Coordinator", dept: "Robo Rumble Core", image: "/Ayush.jpeg" },
-    // { name: "Vaishnavi", role: "Student Coordinator", dept: "Robo Rumble Core", image: "/Vaishnavi2.jpeg" },
-    // { name: "Lucky", role: "Student Coordinator", dept: "Robo Rumble Core", image: "/lucky.jpeg" },
-    // { name: "Mukesh", role: "Student Coordinator", dept: "Robo Rumble Core", image: "/mukesh.jpeg" },
+  ];
+
+  const eventManagement = [
+    { name: "Nikhil Shines", role: "Event Manager", dept: "Management", image: "/Nikhil.jpeg" },
+    { name: "Mukesh Yadav", role: "Event Manager", dept: "Management", image: "/mukesh.jpeg" },
+    { name: "Vaishnavi Pal", role: "Event Manager", dept: "Management", image: "/Vaishnavi2.jpeg" },
+  ];
+
+  const technicalLeads = [
+    { name: "Anant Tirupati", role: "Technical Lead", dept: "Technical", image: "/skull.png" },
+    { name: "Aakshant Kumar", role: "Technical Lead", dept: "Technical", image: "/skull.png" },
+  ];
+
+  const mediaPR = [
+    { name: "Lucky Kumar", role: "Media PR Head", dept: "Media & PR", image: "/lucky.jpeg" },
+    { name: "Mukesh Nishad", role: "Media PR Head", dept: "Media & PR", image: "/skull.png" },
   ];
 
   return (
@@ -197,14 +210,41 @@ export default function TeamPage() {
           </h1>
         </div>
 
-        {/* Section: Student Coordinators Only */}
+        {/* Sections */}
         <div className="space-y-24">
           <section>
             <h2 className="text-xs font-mono font-bold text-white tracking-[0.5em] uppercase mb-10 border-b border-white/20 pb-4 flex items-center gap-4">
               <Terminal size={14} /> // Student_Coordinators
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              {students.map((s, i) => <AssetCard key={i} member={s} delay={i * 0.1} />)}
+              {studentCoordinators.map((s, i) => <AssetCard key={i} member={s} delay={i * 0.1} />)}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-xs font-mono font-bold text-white tracking-[0.5em] uppercase mb-10 border-b border-white/20 pb-4 flex items-center gap-4">
+              <Terminal size={14} /> // Event_Management
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {eventManagement.map((s, i) => <AssetCard key={i} member={s} delay={i * 0.1} />)}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-xs font-mono font-bold text-white tracking-[0.5em] uppercase mb-10 border-b border-white/20 pb-4 flex items-center gap-4">
+              <Terminal size={14} /> // Technical_Lead
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {technicalLeads.map((s, i) => <AssetCard key={i} member={s} delay={i * 0.1} />)}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-xs font-mono font-bold text-white tracking-[0.5em] uppercase mb-10 border-b border-white/20 pb-4 flex items-center gap-4">
+              <Terminal size={14} /> // Media_&_PR
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {mediaPR.map((s, i) => <AssetCard key={i} member={s} delay={i * 0.1} />)}
             </div>
           </section>
         </div>

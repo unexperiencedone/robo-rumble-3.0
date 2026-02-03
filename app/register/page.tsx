@@ -165,7 +165,14 @@ export default function RegisterPage() {
                       >
                         <option value="" className="bg-zinc-950">SELECT_PROTOCOL...</option>
                         <option value="robo-wars" className="bg-zinc-950">ROBO_WARS</option>
-                        <option value="line-follower" className="bg-zinc-950">LINE_FOLLOWER</option>
+                        <option value="line-following" className="bg-zinc-950">LINE_FOLLOWING_BOT</option>
+                        <option value="robo-soccer" className="bg-zinc-950">ROBO_SOCCER</option>
+                        <option value="rc-flying" className="bg-zinc-950">RC_FLYING</option>
+                        <option value="project-expo" className="bg-zinc-950">PROJECT_EXPO</option>
+                        <option value="robo-obstacle-race" className="bg-zinc-950">ROBO_OBSTACLE_RACE</option>
+                        <option value="pick-and-drop" className="bg-zinc-950">PICK_AND_DROP_CHALLENGE</option>
+                        <option value="defence-talk" className="bg-zinc-950">DEFENCE_TALK</option>
+                        <option value="defence-expo" className="bg-zinc-950">DEFENCE_EXPO</option>
                         <option value="e-sports" className="bg-zinc-950">E_SPORTS</option>
                       </select>
                     </div>
