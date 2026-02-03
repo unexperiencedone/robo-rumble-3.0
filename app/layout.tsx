@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ROBO RUMBLE | The Ultimate Robotics Showdown",
     description: "Join Robo Rumble 3.0 at CSJMU. Compete in Robo Wars, Line Follower, and Esports.",
-    url: "https://roborumble.in", // Assuming a URL or placeholder
+    url: "https://robo-rumble-3-0.vercel.app/", // Assuming a URL or placeholder
     siteName: "Robo Rumble",
     images: [
       {
