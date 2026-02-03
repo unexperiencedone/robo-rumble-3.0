@@ -49,7 +49,7 @@ export default function Hero({ onComplete }: { onComplete?: () => void }) {
     // 4.5s: Complete
     timeoutIds.push(setTimeout(() => {
         if (onComplete) onComplete();
-    }, 4500) as unknown as NodeJS.Timeout);
+    }, 2800) as unknown as NodeJS.Timeout);
 
 
     // Random Glitch Effect Logic
