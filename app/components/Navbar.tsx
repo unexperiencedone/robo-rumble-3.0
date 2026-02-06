@@ -17,8 +17,8 @@ const Navbar = () => {
     { label: 'EVENTS', color: '#FF003C', href: '/events' },   // Red/Pink (Glitch)
     { label: 'SCHEDULE', color: '#00F0FF', href: '/schedule' }, // Cyan
     { label: 'TEAM', color: '#f200ffff', href: '/team' },       // Purple
+    { label: 'PATRONS', color: '#00FF9E', href: '/patrons' },   // Green
     { label: 'SPONSORS', color: '#FF003C', href: '/sponsors' },       // Red
-    { label: 'ANNOUNCEMENTS', color: '#00F0FF', href: '/announcement' }, // Cyan
   ];
 
   const toggleSidebar = () => {
@@ -44,7 +44,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation - Hidden on mobile/tablet */}
-          <div className="hidden lg:flex items-center gap-5">
+          <div className="hidden lg:flex items-center gap-3">
             {navItems.map((item, index) => (
               <a
                 key={index}
@@ -52,7 +52,7 @@ const Navbar = () => {
                 className="relative group/item"
               >
                 <div className="absolute -bottom-1 left-0 w-0 h-[2px] group-hover/item:w-full transition-all duration-300" style={{ backgroundColor: item.color }} />
-                <span className="text-gray-400 font-bold text-[10px] md:text-xs group-hover/item:text-white transition-colors tracking-widest">{item.label}</span>
+                <span className="text-gray-400 font-bold text-[10px] lg:text-[11px] group-hover/item:text-white transition-colors tracking-widest">{item.label}</span>
               </a>
             ))}
           </div>

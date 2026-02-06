@@ -4,16 +4,25 @@ import { useEffect, useState } from "react";
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
 
-const SlotChar = ({ targetChar, delay }: { targetChar: string; delay: number }) => {
-  const [displayChar, setDisplayChar] = useState("A"); // Start with a static character to prevent hydration mismatch
+const SlotChar = ({ targetChar, delay, index }: { targetChar: string; delay: number; index: number }) => {
+  // Start with the target char to ensure if hydration fails/stalls we see the correct text.
+  // The effect will immediately kick in to shuffle it.
+  const [displayChar, setDisplayChar] = useState(targetChar); 
 
   useEffect(() => {
-    // Phase 1: Rapidly shuffle characters
-    const interval = setInterval(() => {
+    let interval: NodeJS.Timeout;
+    
+    // Delay the START of shuffling slightly per index to create a "wave" of chaos? 
+    // Or just start immediately.
+    // User complaint: "stalled at dkry". "dkry" was the computed start state.
+    // By starting at targetChar, we avoid weird words.
+    
+    // Start shuffling immediately
+    interval = setInterval(() => {
       setDisplayChar(CHARS[Math.floor(Math.random() * CHARS.length)]);
     }, 50);
 
-    // Phase 2: Lock onto the target character after the delay
+    // Stop shuffling and lock to target
     const timeout = setTimeout(() => {
       clearInterval(interval);
       setDisplayChar(targetChar);
@@ -30,7 +39,7 @@ const SlotChar = ({ targetChar, delay }: { targetChar: string; delay: number }) 
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       className="inline-block"
-      style={{ minWidth: "1ch" }}
+      style={{ minWidth: "0.5em" }} // Adjusted minWidth for cursive fonts which might be tighter
     >
       {displayChar}
     </motion.span>
@@ -39,9 +48,9 @@ const SlotChar = ({ targetChar, delay }: { targetChar: string; delay: number }) 
 
 export const SlotText = ({ text, className = "" }: { text: string; className?: string }) => {
   return (
-    <div className={`flex font-bold tracking-widest text-white uppercase font-mono ${className}`}>
+    <div className={`flex font-bold tracking-widest uppercase ${className}`}>
       {text.split("").map((char, i) => (
-        <SlotChar key={i} targetChar={char} delay={i} />
+        <SlotChar key={i} targetChar={char} delay={i} index={i} />
       ))}
     </div>
   );
