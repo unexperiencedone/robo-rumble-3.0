@@ -16,6 +16,7 @@ const Navbar = () => {
     { label: 'ABOUT', color: '#FFD700', href: '/about' },     // Gold/Yellow
     { label: 'EVENTS', color: '#FF003C', href: '/events' },   // Red/Pink (Glitch)
     { label: 'SCHEDULE', color: '#00F0FF', href: '/schedule' }, // Cyan
+    { label: 'GALLERY', color: '#E661FF', href: '/gallery' },   // Magenta
     { label: 'TEAM', color: '#f200ffff', href: '/team' },       // Purple
     { label: 'PATRONS', color: '#00FF9E', href: '/patrons' },   // Green
     { label: 'SPONSORS', color: '#FF003C', href: '/sponsors' },       // Red
