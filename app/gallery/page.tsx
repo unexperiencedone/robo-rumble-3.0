@@ -211,10 +211,14 @@ export default function GalleryPage() {
             </motion.span>
 
             <div className="mt-8 text-[#FF003C] flex justify-center">
-              <SlotText
-                text="PAST"
+              <motion.span
                 className={`${dancingScript.className} text-[80px] md:text-[150px] lg:text-[180px] tracking-[0.2em]`}
-              />
+                initial={{ opacity: 0, filter: "blur(20px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 1.5, delay: 2.5, ease: "easeOut" }}
+              >
+                PAST
+              </motion.span>
             </div>
           </div>
         </motion.div>
