@@ -139,7 +139,7 @@ export default function SchedulePage() {
       <div className="relative z-10 flex flex-col items-center pt-32 pb-20 px-4 min-h-screen">
         {/* --- TITLE --- */}
         <h1
-          className="text-5xl md:text-7xl font-black tracking-widest uppercase mb-16 text-center font-['Orbitron']"
+          className="text-3xl md:text-7xl font-black tracking-widest uppercase mb-16 text-center font-['Orbitron']"
           style={{
             background: "linear-gradient(to bottom, #00F0FF, #00FF9E)",
             WebkitBackgroundClip: "text",

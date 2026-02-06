@@ -181,11 +181,12 @@ export default function Patrons() {
               <div className="bg-[#00F0FF] text-black px-4 py-2 flex justify-between items-center font-mono text-xs md:text-sm font-black uppercase tracking-widest">
                 <div className="flex gap-4">
                   <span className="animate-pulse">● PROFILE_ACTIVE</span>
-                  <span>ID_VERIFIED</span>
+                  <span className="hidden md:inline">ID_VERIFIED</span>
                 </div>
+                {/* Desktop Close Button */}
                 <button
                   onClick={handleClose}
-                  className="hover:bg-black hover:text-[#00F0FF] px-3 py-1 border border-black transition-colors"
+                  className="hidden md:block hover:bg-black hover:text-[#00F0FF] px-3 py-1 border border-black transition-colors"
                 >
                   [CLOSE]
                 </button>
@@ -239,6 +240,16 @@ export default function Patrons() {
                       </div>
                     )}
                   </div>
+                </div>
+                
+                {/* Mobile Close Button at Bottom */}
+                <div className="md:hidden border-t border-[#00F0FF]/30 pt-4 mt-6">
+                  <button 
+                    onClick={handleClose}
+                    className="w-full bg-[#00F0FF] text-black py-3 font-black font-mono text-xs uppercase tracking-widest hover:bg-[#00F0FF]/80 transition-all"
+                  >
+                    [ CLOSE ]
+                  </button>
                 </div>
               </div>
             </div>

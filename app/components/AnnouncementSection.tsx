@@ -35,7 +35,7 @@ export default function AnnouncementSection() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="mb-12 text-center">
                      <p
-                        className="text-[#00F0FF] text-3xl md:text-5xl uppercase tracking-[0.2em] font-black text-center py-8"
+                        className="text-[#00F0FF] text-lg md:text-3xl lg:text-5xl uppercase tracking-[0.15em] md:tracking-[0.2em] font-black text-center py-4 md:py-8"
                         style={{ fontFamily: "var(--font-orbitron)" }}
                      >
                         // System_Broadcasts

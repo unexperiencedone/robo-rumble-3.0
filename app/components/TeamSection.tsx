@@ -312,7 +312,7 @@ export default function TeamSection() {
 
       <div className="container mx-auto px-4 md:px-6 mb-8 text-center">
         <p
-          className="text-[#00F0FF] text-3xl md:text-5xl uppercase tracking-[0.2em] font-black py-8"
+          className="text-[#00F0FF] text-xl md:text-3xl lg:text-5xl uppercase tracking-[0.15em] md:tracking-[0.2em] font-black py-4 md:py-8"
           style={{ fontFamily: "var(--font-orbitron)" }}
         >
           // Meet_The_Team
@@ -482,7 +482,10 @@ export default function TeamSection() {
             <div
               ref={scrollRef}
               className="flex gap-6 overflow-x-auto no-scrollbar py-4 justify-start max-w-5xl scroll-smooth"
-              style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
+              style={{
+                maskImage:
+                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+              }}
             >
               {teamData[activeTeam].map((member, i) => (
                 <div

@@ -203,7 +203,7 @@ export default function Home() {
         {/* Title Container */}
         <div className="container mx-auto px-4 md:px-6 mb-8">
           <p
-            className="text-[#00F0FF] text-3xl md:text-5xl uppercase tracking-[0.2em] font-black text-center py-8"
+            className="text-[#00F0FF] text-lg md:text-3xl lg:text-5xl uppercase tracking-[0.15em] md:tracking-[0.2em] font-black text-center py-4 md:py-8"
             style={{ fontFamily: "var(--font-orbitron)" }}
           >
             // Previous_Partners
@@ -213,8 +213,8 @@ export default function Home() {
         {/* Full Width Scroller */}
         <div className="relative w-full">
           {/* Gradient overlays for fade effect */}
-          <div className="absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-black via-black/80 to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-black via-black/80 to-transparent z-10" />
+          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-64 bg-gradient-to-r from-black via-black/80 to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-64 bg-gradient-to-l from-black via-black/80 to-transparent z-10" />
 
           {/* Scrolling container */}
           <div className="flex gap-12 animate-infinite-scroll">
